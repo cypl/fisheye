@@ -32,8 +32,11 @@ function photographerFactory(data) {  // data représente un élément “photog
         // on crée une balise <a> dans laquelle on va placer le portrait + le nom du photographe
         const photographerLink = document.createElement( 'a' );
         photographerLink.classList.add("photographer_card__link");
-        const photographerLinkTarget = `photographer.html`; //${ID}  => utiliser URL Pattern ? https://developer.mozilla.org/en-US/docs/Web/API/URL_Pattern_API
-        photographerLink.setAttribute("href", photographerLinkTarget);
+        // on crée un object URl, dans lequel on va ajouter l'ID du photographe
+        const photographerLinkTarget = new URL(window.location.origin + "/photographer.html" + "?id=" + id);
+        const photographerLinkTargetHref = photographerLinkTarget.href;
+        // on renseigne l'attribut href du lien, avec l'ID du photographe 
+        photographerLink.setAttribute("href", photographerLinkTargetHref);
         photographerLink.appendChild(imgPhotographerFigure);
         photographerLink.appendChild(photographerName);
 
