@@ -23,7 +23,28 @@
         .photograph-header_col3{
             justify-content:flex-end;
             }
-    
+.photograph-header__title{
+    color: #D3573C;
+    font-size: 36px;
+    line-height: 46px;
+    font-weight: 400;
+    margin:0 0 10px 0;
+}  
+.photograph-header__localisation{
+    margin: 0;
+    font-size: 18px;
+    line-height: 1.5;
+    color: #901C1C;
+}
+.photograph-header__philosophy{
+    margin: 0;
+    font-size: 18px;
+    line-height: 1.5;
+    color: #525252;
+}
+
+
+
 .photograph-header__portrait{
     width:200px;
     height:200px;
@@ -42,7 +63,7 @@
     line-height:24px;
     font-weight: bold;
     color: #fff;
-    padding: 23px 19px;
+    padding: 17px 19px;
     border: none;
     background-color: #901C1C;
     border-radius: 5px;
