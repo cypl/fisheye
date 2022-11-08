@@ -1,27 +1,11 @@
+async function photographersApi() {
+    const urlData = "../data/photographers.json";
+    const photographers = await fetch(urlData); 
+    return photographers.json(); // = Promise
+}
+
 async function getPhotographers() {
-     
-    const photographers = await fetch('../data/photographers.json'); // = Promise
-    return await photographers.json(); // = Datas qui résultent de la Promise
-
-    // fetch("../data/photographers.json")
-    //     .then(function(res) {
-    //         if(res.ok){
-    //             return res.json();
-    //         }
-    //     })
-    //     .then(function(value) {
-    //         const photographers = JSON.stringify(value.photographers);
-    //         console.log(photographers);   // => retourne une promise sous la forme d'un Array
-    //         //return photographers;
-    //     })
-    //     .catch(function(error){
-    //         //erreurs
-    //     });
-
-    // comment transformer le résultat de la promise en donnée exploitable ??
-
-    // return ({
-    //          photographers: [...photographers]})
+    return await photographersApi(); // = Datas qui résultent de la Promise
 };
 
 async function displayData(photographers) {
@@ -34,7 +18,7 @@ async function displayData(photographers) {
     });
 };
 
-async function init() {
+async function init() {    
     // Récupère les datas des photographes
     const { photographers } = await getPhotographers();  // Pourquoi y-a-t'il des accolades autour de “photographers“ ? 
     displayData(photographers); // Pourquoi est-ce qu'il n'y a pas de "await" ici ?
