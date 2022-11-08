@@ -23,17 +23,40 @@ async function findPhotographer(photographers) {
 };
 
 // A partir de cet Objet, on peut générer le template pour le header
-async function displayHeader(singlephotographer) { // c'est là où il faut appeler la photographerCardFactory
-    photographerCardFactory(singlephotographer);
+async function displayHeader(singlePhotographer) { // c'est là où il faut appeler la photographerCardFactory
+    photographerCardFactory(singlePhotographer);
 };
 
+// Dans le tableau Media, on cherche les images qui ont l'ID du photographe
+async function findMedias(media) {
+    // on filtre le tableau des photographes pour retouver le bon, grâce à son ID.
+    const arrayMedias = [];
+    for (const element of media) {
+        if(element.photographerId === idPhotographer){
+            arrayMedias.push(element);
+        }
+    }
+    return arrayMedias;
+};
+
+async function displayMedias(mediasPhotographer){
+    const photographMediasSection = document.querySelector(".photograph-medias");
+    mediasPhotographer.forEach((media) => {
+        //les data de chaque media sont chargées selon le template de la fonction photographerMediasFactory();
+        const mediaModel = photographerMediasFactory(media); 
+        photographMediasSection.appendChild(mediaModel);
+    });
+}
+
 async function initPhotographer() {
-    // On récupère les datas des photographes
-    const { photographers } = await getPhotographers(); 
+    const { photographers } = await getPhotographers(); // ce qu'il y a entre {} correspond à la propriété de l'objet que l'on souhaite récupérer
+    const { media } = await getPhotographers(); 
     // On sort un objet avec uniquement le photographe concerné
-    const singlephotographer = await findPhotographer(photographers); // retourne l'objet du photographe
+    const singlePhotographer = await findPhotographer(photographers); // retourne l'objet du photographe
+    const mediasPhotographer = await findMedias(media); // retourne l'objet media du photographe, avec la collections d'images
     // A partir de cet Objet, on génére le template pour le header
-    await displayHeader(singlephotographer);
+    await displayHeader(singlePhotographer);
+    await displayMedias(mediasPhotographer);
 };
 
 initPhotographer();

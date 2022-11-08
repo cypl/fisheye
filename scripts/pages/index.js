@@ -22,7 +22,7 @@ async function displayData(photographers) {
 
 async function init() {    
     // Récupère les datas des photographes
-    const { photographers } = await getPhotographers();  // Pourquoi y-a-t'il des accolades autour de “photographers“ ? 
+    const { photographers } = await getPhotographers();  // ce qu'il y a entre {} correspond à la propriété de l'objet que l'on souhaite récupérer 
     displayData(photographers); // Pourquoi est-ce qu'il n'y a pas de "await" ici ?
 };
 
