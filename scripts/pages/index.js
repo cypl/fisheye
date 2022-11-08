@@ -1,9 +1,11 @@
+// On fait une requête sur le fichier JSON, et on retourne une promise 
 async function photographersApi() {
     const urlData = "../data/photographers.json";
     const photographers = await fetch(urlData); 
     return photographers.json(); // = Promise
 }
 
+// On récupère le resultat de la promise issue de photographersApi(), et on retourne le resultat une fois que la requête a abouti 
 async function getPhotographers() {
     return await photographersApi(); // = Datas qui résultent de la Promise
 };

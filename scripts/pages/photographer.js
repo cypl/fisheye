@@ -3,10 +3,16 @@ const queryString = window.location.search;
 const urlParameters = new URLSearchParams(queryString);
 const idPhotographer = parseInt(urlParameters.get('id')) // = ID du photographe
 
-// On sort un tableau, qui liste tous les photographes
+// On fait une requête sur le fichier JSON, et on retourne une promise 
+async function photographersApi() {
+    const urlData = "../data/photographers.json";
+    const photographers = await fetch(urlData); 
+    return photographers.json(); // = Promise
+}
+
+// On récupère le resultat de la promise issue de photographersApi(), et on retourne le resultat une fois que la requête a abouti 
 async function getPhotographers() {
-    const photographers = await fetch('../data/photographers.json'); // = Promise
-    return await photographers.json(); // = Datas qui résultent de la Promise
+    return await photographersApi(); // = Datas qui résultent de la Promise
 };
 
 // Dans le tableau, on cherche le photographe qui a cet ID, et on retourne l'objet correspondant
