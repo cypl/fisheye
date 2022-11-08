@@ -61,7 +61,7 @@
 .contact_button {
     font-size: 18px;
     line-height:24px;
-    font-weight: bold;
+    font-weight: 700;
     color: #fff;
     padding: 17px 19px;
     border: none;
@@ -109,11 +109,13 @@
         .media__title{
             margin:0;
             width: calc(100% - 50px);
+            color:#901C1C;
             }
         .media__like{
             margin:0;
             width: 50px;
             text-align:right;
+            font-weight: 700;
             }
 
 
