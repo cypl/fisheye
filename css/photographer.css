@@ -77,13 +77,17 @@
 }
 
 
-
+.sort-by{
+    padding:30px 0 0 0; 
+}
+.sort-by span{cursor:pointer;}
 
 .photograph-medias{
-    padding:50px 0 20px 0;
+    padding:30px 0 20px 0;
     display:flex;
     flex-wrap: wrap;
     justify-content: space-between;
+    min-height: 200px;
     }
 .media{
     width:calc(33.33% - 20px);
@@ -92,7 +96,7 @@
     .media__figure{
         position: relative;
         padding-top:75%;
-        background-color:#ccc;
+        background-color:#222;
         border-radius:5px;
         }
         .media__img{
@@ -100,7 +104,33 @@
             height:100%;
             object-fit: cover;
             border-radius:5px;
+            position: absolute;
+            top: 0;
             }
+            .media__img-video{
+                opacity:0.7;
+                }
+            .media__icon_video{
+                width: 60px;
+                height: 60px;
+                border-radius:50%;
+                border:2px solid #fff;
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                z-index: 1;
+                transform: translate(-50%,-50%);
+                }
+            .media__icon_video svg{
+                position: absolute;
+                width: 22px;
+                height:auto;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%,-50%);
+                }
+                .media__icon_video svg path{fill:#fff;}
+
     .media__infos{
         padding:15px 0 0 0;
         display:flex;
@@ -108,16 +138,36 @@
         }
         .media__title{
             margin:0;
-            width: calc(100% - 50px);
+            width: calc(100% - 70px);
             color:#901C1C;
             }
         .media__like{
             margin:0;
-            width: 50px;
+            width: 70px;
             text-align:right;
             font-weight: 700;
+            color:#901C1C;
+            font-size:12px;
+            line-height:23px;
             }
-
+            .media__like i{
+                display:inline;
+                margin-left:4px;
+                }
+                .media__like i svg.like_button{
+                    height: 18px;
+                    width: auto;
+                    vertical-align: -4px;
+                    cursor:pointer;
+                    }
+                    .media__like i svg.like_button path{
+                        fill:#901C1C;
+                        transition:0.1s fill ease-in-out;
+                    }
+                    .media__like i svg.like_button:hover path{
+                        fill:#DB8876;
+                        transition:0.1s fill ease-in-out;
+                    }
 
 
 

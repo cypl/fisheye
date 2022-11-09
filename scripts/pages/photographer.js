@@ -3,6 +3,7 @@ const queryString = window.location.search;
 const urlParameters = new URLSearchParams(queryString);
 const idPhotographer = parseInt(urlParameters.get('id')) // = ID du photographe
 
+
 // On fait une requête sur le fichier JSON, et on retourne une promise 
 async function photographersApi() {
     const urlData = "../data/photographers.json";
@@ -10,10 +11,12 @@ async function photographersApi() {
     return photographers.json(); // = Promise
 }
 
+
 // On récupère le resultat de la promise issue de photographersApi(), et on retourne le resultat une fois que la requête a abouti 
 async function getPhotographers() {
     return await photographersApi(); // = Datas qui résultent de la Promise
 };
+
 
 // Dans le tableau, on cherche le photographe qui a cet ID, et on retourne l'objet correspondant
 async function findPhotographer(photographers) {
@@ -22,13 +25,15 @@ async function findPhotographer(photographers) {
     return await singlePhotographer;
 };
 
+
 // A partir de cet Objet, on peut générer le template pour le header
 async function displayHeader(singlePhotographer) { // c'est là où il faut appeler la photographerCardFactory
     photographerCardFactory(singlePhotographer);
 };
 
-// Dans le tableau Media, on cherche les images qui ont l'ID du photographe
-async function findMedias(media) {
+
+// On recherche les médias qui ont l'ID du photographe et on les classe dans un tableau "arrayMedias"
+async function findMedias(media, classification) {
     // on filtre le tableau des photographes pour retouver le bon, grâce à son ID.
     const arrayMedias = [];
     for (const element of media) {
@@ -36,27 +41,97 @@ async function findMedias(media) {
             arrayMedias.push(element);
         }
     }
-    return arrayMedias;
+    return arrayMedias.sort(classification); // le paramère "classification" va faire appel à une fonction "sortByAsc()" ou "sortByDesc()" qui va définir un paramètre de classement et un ordre
 };
 
+
+// Fonction qui permet de classer les médias du plus vers le moins (ex : du plus de likes vers moins de likes)
+function sortByAsc(property){
+    return function(a, b){
+        if(a[property] < b[property]){
+            return 1;
+        }else if(a[property] > b[property]){
+            return -1;
+        }else{
+            return 0;   
+        }
+    }
+}
+
+
+// Fonction qui permet de classer des médias du moins vers le plus (ex : ordre alphabétique)
+function sortByDesc(property){
+    return function(a, b){
+        if(a[property] < b[property]){
+            return -1;
+        }else if(a[property] > b[property]){
+            return 1;
+        }else{
+            return 0;   
+        }
+    }
+}
+
+
+// On utilise le tableau "arrayMedias" comme paramètre "mediasPhotographer", afin d'afficher une fiche correspondante à chaque média
 async function displayMedias(mediasPhotographer){
     const photographMediasSection = document.querySelector(".photograph-medias");
     mediasPhotographer.forEach((media) => {
-        //les data de chaque media sont chargées selon le template de la fonction photographerMediasFactory();
+        //les datas de chaque media sont chargées selon le template de la fonction photographerMediasFactory();
         const mediaModel = photographerMediasFactory(media); 
         photographMediasSection.appendChild(mediaModel);
     });
 }
 
+
+// On crée une fonction pour vider les éléments médias au moment du changement de filtre
+async function removeMedias() {
+    const photographMediasSection = document.querySelector(".photograph-medias");
+    photographMediasSection.innerHTML = "";
+};
+
+
+// Fonction pour charger l'ensemble des éléments au chargement de la page
 async function initPhotographer() {
     const { photographers } = await getPhotographers(); // ce qu'il y a entre {} correspond à la propriété de l'objet que l'on souhaite récupérer
     const { media } = await getPhotographers(); 
     // On sort un objet avec uniquement le photographe concerné
     const singlePhotographer = await findPhotographer(photographers); // retourne l'objet du photographe
-    const mediasPhotographer = await findMedias(media); // retourne l'objet media du photographe, avec la collections d'images
+    const mediasPhotographer = await findMedias(media,sortByAsc("likes")); // retourne l'objet media du photographe, avec la collections d'images
     // A partir de cet Objet, on génére le template pour le header
     await displayHeader(singlePhotographer);
     await displayMedias(mediasPhotographer);
 };
-
 initPhotographer();
+
+
+
+// On crée les fonctions qui vont ré-afficher la liste lorsque l'on clique sur un critère de filtre, selon un nouvel ordre
+async function initPhotographerByDRY(classification){
+    const { media } = await getPhotographers();
+    const mediasPhotographer = await findMedias(media,classification);
+    await removeMedias();
+    await displayMedias(mediasPhotographer);
+}
+async function initPhotographerByTitle(){
+    initPhotographerByDRY(sortByDesc("title"));
+}
+async function initPhotographerByDate(){
+    initPhotographerByDRY(sortByDesc("date"));
+}
+async function initPhotographerByLikes(){
+    initPhotographerByDRY(sortByAsc("likes"));
+}
+
+const sortByLikes = document.getElementById("sort-by-likes");
+const sortByName = document.getElementById("sort-by-name");
+const sortByDate = document.getElementById("sort-by-date");
+sortByName.addEventListener('click', (event) => {
+    initPhotographerByTitle();
+});
+sortByDate.addEventListener('click', (event) => {
+    initPhotographerByDate();
+});
+sortByLikes.addEventListener('click', (event) => {
+    initPhotographerByLikes();
+}); 
