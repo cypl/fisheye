@@ -78,9 +78,41 @@
 
 
 .sort-by{
-    padding:30px 0 0 0; 
+    padding:30px 0 0 0;
+    font-weight: 700;
 }
-.sort-by span{cursor:pointer;}
+.sort-by-item{cursor:pointer;}
+#sort-by-container{
+    position: relative;
+    margin-left:5px;
+    }
+#sort-by-wrapper{
+    position: absolute;
+    top:-12px;
+    display: inline-block;
+    border-radius: 5px;
+    overflow: scroll;
+    z-index:1;
+    padding:13px;
+    background-color: #901C1C;
+    }
+    .sort-by-item{
+        display:block;
+        background-color: #901C1C;
+        color:#fff;
+        padding:10px 0;
+        border-bottom:1px solid #DB8876;
+    }
+    .sort-by-item:first-child{
+        padding-top:0;
+    }
+    .sort-by-item:last-child{
+        border-bottom:none;
+        padding-bottom:0;
+    }
+
+
+
 
 .photograph-medias{
     padding:30px 0 20px 0;
