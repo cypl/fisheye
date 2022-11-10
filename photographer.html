@@ -13,12 +13,20 @@
       </div>
   </header>
   <main id="main">
-    <div class="photograph-header content_width">
+    <!-- Header photographer -->
+    <div class="photograph-header content_width"></div>
+    <!-- Dropdown filter -->
+    <div class="sort-by content_width">
+      <p>Trier par : <span id="sort-by-container">
+        <span id="sort-by-wrapper">
+          <span id="sort-by-likes" class="sort-by-item">Popularité</span>
+          <span id="sort-by-date" class="sort-by-item">Date</span>
+          <span id="sort-by-name" class="sort-by-item">Titre</span>
+        </span></span>
+      </p>
     </div>
-    <div class="sort-by content_width"><p>Trier par : <span id="sort-by-container"><span id="sort-by-wrapper"><span id="sort-by-likes" class="sort-by-item">Popularité</span> <span id="sort-by-date" class="sort-by-item">Date</span> <span id="sort-by-name" class="sort-by-item">Titre</span></span></span></p></div>
-    <!-- <div class="sort-by content_width"><p>Trier par : <span id="sort-by-likes">Popularité</span> <span id="sort-by-date">Date</span> <span id="sort-by-name">Titre</span></p></div> -->
-    <div class="photograph-medias content_width">
-    </div>
+    <!-- Medias photographer -->
+    <div class="photograph-medias content_width"></div>
   </main>
     
     
@@ -41,5 +49,6 @@
     <script src="scripts/factories/photographerCard.js"></script>
     <script src="scripts/factories/photographerMedias.js"></script>
     <script src="/scripts/utils/contactForm.js"></script>
+    <script src="/scripts/utils/dropdown.js"></script>
   </body>
 </html>

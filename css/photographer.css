@@ -2,6 +2,7 @@
     display: none;
 }
 
+/* Header photographer */
 .photograph-header {
     background-color: #FAFAFA;
     margin: 0 100px;
@@ -9,7 +10,6 @@
     display: flex;
     flex-wrap: wrap;
     }
-
     .photograph-header_col1,
     .photograph-header_col2,
     .photograph-header_col3{
@@ -42,9 +42,6 @@
     line-height: 1.5;
     color: #525252;
 }
-
-
-
 .photograph-header__portrait{
     width:200px;
     height:200px;
@@ -56,8 +53,6 @@
         object-fit: cover;
         border-radius:50%;
         }
-
-
 .contact_button {
     font-size: 18px;
     line-height:24px;
@@ -77,14 +72,14 @@
 }
 
 
+/* Dropdown menu */
 .sort-by{
-    padding:30px 0 0 0;
+    padding:25px 0 0 0;
     font-weight: 700;
 }
-.sort-by-item{cursor:pointer;}
 #sort-by-container{
     position: relative;
-    margin-left:5px;
+    margin-left:8px;
     }
 #sort-by-wrapper{
     position: absolute;
@@ -93,29 +88,57 @@
     border-radius: 5px;
     overflow: scroll;
     z-index:1;
-    padding:13px;
     background-color: #901C1C;
+    box-shadow: 0 3px 5px rgba(0, 0, 0, 0.5);
     }
     .sort-by-item{
-        display:block;
+        display:none;
+        position: relative;
         background-color: #901C1C;
         color:#fff;
-        padding:10px 0;
-        border-bottom:1px solid #DB8876;
+        padding:12px 40px 12px 12px;
+        cursor:pointer;
+        transition:0.1s background-color ease-in-out, 0.05s color ease-in-out;
+    }
+    .sort-by-item:hover{
+        background-color: #DB8876;
+        color:#000;
+        transition:0.1s background-color ease-in-out, 0.05s color ease-in-out;
     }
     .sort-by-item:first-child{
-        padding-top:0;
+        display:block;
+        border:none;
     }
-    .sort-by-item:last-child{
+    #sort-by-wrapper.dropdownOpen .sort-by-item{
+        border-bottom:1px solid #DB8876;
+    }
+    #sort-by-wrapper.dropdownOpen .sort-by-item:last-child{
         border-bottom:none;
-        padding-bottom:0;
+    }
+    #sort-by-wrapper::before{
+        content: "";
+        position: absolute;
+        width: 18px;
+        height: 18px;
+        background-image: url("../assets/images/chevron-dropdown.svg");
+        background-repeat: no-repeat;
+        background-size: contain;
+        top: 13px;
+        right: 8px;
+        z-index: 1;
+        pointer-events: none;
+        transform:rotate(-0deg);
+        transition:0.1s transform ease-in-out;
+    }
+    #sort-by-wrapper:hover::before{
+        transform:rotate(-180deg);
+        transition:0.1s transform ease-in-out;
     }
 
 
-
-
+/* Section médias */
 .photograph-medias{
-    padding:30px 0 20px 0;
+    padding:25px 0 20px 0;
     display:flex;
     flex-wrap: wrap;
     justify-content: space-between;
@@ -162,7 +185,6 @@
                 transform: translate(-50%,-50%);
                 }
                 .media__icon_video svg path{fill:#fff;}
-
     .media__infos{
         padding:15px 0 0 0;
         display:flex;
@@ -200,11 +222,6 @@
                         fill:#DB8876;
                         transition:0.1s fill ease-in-out;
                     }
-
-
-
-
-
 
 
 
