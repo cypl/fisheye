@@ -211,19 +211,36 @@
                 .media__like i svg.like_button{
                     height: 18px;
                     width: auto;
-                    vertical-align: -4px;
+                    vertical-align: -5px;
                     cursor:pointer;
                     }
                     .media__like i svg.like_button path{
                         fill:#901C1C;
                         transition:0.1s fill ease-in-out;
                     }
-                    .media__like i svg.like_button:hover path{
-                        fill:#DB8876;
+                    .media__like__wrapper{
+                        background-color: transparent;
+                        padding: 4px 4px 4px 6px;
+                        border-radius: 3px;
+                        cursor:pointer;
+                        transition:0.1s background-color ease-in-out;
+                    }
+                    .media__like__wrapper:hover{
+                        background-color: #DB8876;
+                        color:#000;
+                        transition:0.1s background-color ease-in-out;
+                    }
+                    .media__like__wrapper:hover .like_button path{
+                        fill:#fff;
                         transition:0.1s fill ease-in-out;
                     }
-
-
+                    .media__like__wrapper.liked{
+                        background-color: #DB8876;
+                        color:#000;
+                    }
+                    .media__like__wrapper.liked .like_button path{
+                        fill:#fff;
+                    }
 
 /* Fenêtre modale */
 .modal {
@@ -279,3 +296,31 @@ form input {
     border: none;
     border-radius: 5px;
 }
+
+
+/* Footer infos */
+#footer_infos{
+    position: fixed;
+    bottom:0;
+    right:25px;
+    padding:15px;
+    background-color: #DB8876;
+    border-radius:5px 5px 0 0;
+    }
+    .footer_infos__p{
+        text-align:right;
+        margin:0;
+        }
+        .footer_infos__price{
+            
+        }
+        .footer_infos__counter{
+            margin-right:15px;
+        }
+        .footer_infos__counter svg{
+            margin-left:5px;
+            height:18px;
+            width:auto;
+            display:inline;
+            vertical-align: -3px;
+        }

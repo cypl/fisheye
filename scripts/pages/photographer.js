@@ -31,6 +31,11 @@ async function displayHeader(singlePhotographer) { // c'est là où il faut appe
     photographerCardFactory(singlePhotographer);
 };
 
+// A partir de cet Objet, on peut générer le template pour le footer
+async function displayFooter(singlePhotographer, mediasPhotographer) { // c'est là où il faut appeler la photographerFooterFactory
+    photographerFooterFactory(singlePhotographer, mediasPhotographer);
+};
+
 
 // On recherche les médias qui ont l'ID du photographe et on les classe dans un tableau "arrayMedias"
 async function findMedias(media, classification) {
@@ -90,6 +95,55 @@ async function removeMedias() {
     photographMediasSection.innerHTML = "";
 };
 
+class Like {
+    constructor(idMedia, idPhotographer) {
+        this.idMedia = idMedia;
+        this.idPhotographer = idPhotographer;
+    }
+}
+async function mediaLike(){
+    const mediaLikeButtons = document.getElementsByClassName("media__like__wrapper");
+    //on crée un array pour stocker les médias qui on été liké par l'utilisateur
+    const mediasLikedByUser = [];
+    //ensuite, pour chaque bouton like, soit il n'a jamais été liké, soit le contraire
+    for (let mediaLikeButton of mediaLikeButtons) {
+        mediaLikeButton.addEventListener('click', (event) => {
+            if(mediaLikeButton.getAttribute('media-liked') === "false"){
+                mediaLikeButton.classList.add("liked");
+                mediaLikeButton.setAttribute("media-liked", true);
+                //on ajoute +1 à la valeur like
+                let countValue = mediaLikeButton.firstElementChild.textContent*1; // *1 retourne un nombre à la place d'une châine de caractère
+                let countValueAdded = countValue + 1;
+                mediaLikeButton.firstElementChild.innerHTML = countValueAdded;
+                //on crée un nouvel objet Like
+                let idMedia = mediaLikeButton.getAttribute('media-id');
+                let idPhotographer = mediaLikeButton.getAttribute('media-author');
+                let newLike = new Like(idMedia,idPhotographer);
+                // on ajoute cet objet à l'array mediasLikedByUser
+                mediasLikedByUser.push(newLike);
+                // console.log(mediasLikedByUser);
+            } else { // si le média a déjà été liké, on peut le dé-liké
+                mediaLikeButton.classList.remove("liked");
+                mediaLikeButton.setAttribute("media-liked", false);
+                let countValue = mediaLikeButton.firstElementChild.textContent*1;
+                //on retire -1 à la valeur like
+                let countValueAdded = countValue - 1;
+                mediaLikeButton.firstElementChild.innerHTML = countValueAdded;
+                // on recherche dans l'array mediasLikedByUser le média correspondant, grâce à son ID pour le supprimer 
+                let idMedia = mediaLikeButton.getAttribute('media-id');
+                for (let i in mediasLikedByUser) {
+                    if (mediasLikedByUser[i].idMedia === idMedia) {
+                        mediasLikedByUser.splice(i,1);
+                    }
+                }
+                //console.log(mediasLikedByUser);
+            }
+            return ({mediasLikedByUser: [...mediasLikedByUser]})
+        });
+    }
+    return ({mediasLikedByUser: [...mediasLikedByUser]})
+}
+
 
 // Fonction pour charger l'ensemble des éléments au chargement de la page
 async function initPhotographer() {
@@ -100,7 +154,9 @@ async function initPhotographer() {
     const mediasPhotographer = await findMedias(media,sortByAsc("likes")); // retourne l'objet media du photographe, avec la collections d'images
     // A partir de cet Objet, on génére le template pour le header
     await displayHeader(singlePhotographer);
+    await displayFooter(singlePhotographer,mediasPhotographer);
     await displayMedias(mediasPhotographer);
+    await mediaLike();
 };
 initPhotographer();
 
@@ -112,6 +168,7 @@ async function initPhotographerByDRY(classification){
     const mediasPhotographer = await findMedias(media,classification);
     await removeMedias();
     await displayMedias(mediasPhotographer);
+    await mediaLike();
 }
 async function initPhotographerByTitle(){
     initPhotographerByDRY(sortByDesc("title"));
