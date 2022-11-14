@@ -170,7 +170,7 @@ async function mediaLike(){
                 let idPhotographer = mediaLikeButton.getAttribute('media-author');
                 let newLike = new Like(idMedia,idPhotographer);
                 // // on ajoute l'élément à localStorage
-                let newMediasLiked = JSON.parse(localStorage.getItem('fisheyeMediasLiked'));
+                let newMediasLiked = JSON.parse(localStorage.getItem('fisheyeMediasLiked')) || [];
                 newMediasLiked.push(newLike);
                 localStorage.setItem('fisheyeMediasLiked', JSON.stringify(newMediasLiked));
                 // il n'y a plus qu'à ajouter 1 au total de likes
