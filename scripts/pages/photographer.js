@@ -95,6 +95,10 @@ async function removeMedias() {
     photographMediasSection.innerHTML = "";
 };
 
+
+// On crée une fonction pour liker les médias
+// à  chaque like, le total est incrémenté de 1, et inversement
+// à  chaque like, on enregistre le média liké dans localStorage
 class Like {
     constructor(idMedia, idPhotographer) {
         this.idMedia = idMedia;
@@ -103,45 +107,79 @@ class Like {
 }
 async function mediaLike(){
     const mediaLikeButtons = document.getElementsByClassName("media__like__wrapper");
-    //on crée un array pour stocker les médias qui on été liké par l'utilisateur
-    const mediasLikedByUser = [];
-    //ensuite, pour chaque bouton like, soit il n'a jamais été liké, soit le contraire
-    for (let mediaLikeButton of mediaLikeButtons) {
-        mediaLikeButton.addEventListener('click', (event) => {
-            if(mediaLikeButton.getAttribute('media-liked') === "false"){
-                mediaLikeButton.classList.add("liked");
-                mediaLikeButton.setAttribute("media-liked", true);
-                //on ajoute +1 à la valeur like
-                let countValue = mediaLikeButton.firstElementChild.textContent*1; // *1 retourne un nombre à la place d'une châine de caractère
-                let countValueAdded = countValue + 1;
-                mediaLikeButton.firstElementChild.innerHTML = countValueAdded;
-                //on crée un nouvel objet Like
-                let idMedia = mediaLikeButton.getAttribute('media-id');
-                let idPhotographer = mediaLikeButton.getAttribute('media-author');
-                let newLike = new Like(idMedia,idPhotographer);
-                // on ajoute cet objet à l'array mediasLikedByUser
-                mediasLikedByUser.push(newLike);
-                // console.log(mediasLikedByUser);
-            } else { // si le média a déjà été liké, on peut le dé-liké
-                mediaLikeButton.classList.remove("liked");
-                mediaLikeButton.setAttribute("media-liked", false);
-                let countValue = mediaLikeButton.firstElementChild.textContent*1;
-                //on retire -1 à la valeur like
-                let countValueAdded = countValue - 1;
-                mediaLikeButton.firstElementChild.innerHTML = countValueAdded;
-                // on recherche dans l'array mediasLikedByUser le média correspondant, grâce à son ID pour le supprimer 
-                let idMedia = mediaLikeButton.getAttribute('media-id');
-                for (let i in mediasLikedByUser) {
-                    if (mediasLikedByUser[i].idMedia === idMedia) {
-                        mediasLikedByUser.splice(i,1);
+    //on crée un array pour stocker les médias qui on été liké par l'utilisateur OU on récupère les objets déjà contenu dans localStorage
+    let mediasLikedByUserStorage = JSON.parse(localStorage.getItem('fisheyeMediasLiked')) || [];
+    
+    // si des médias ont déjà été likés, on les retrouve dans localStorage, et on leur rajoute la classe "liked" et +1 à la somme de likes
+    if ("fisheyeMediasLiked" in localStorage) {
+        let mediasLikedByUserStorage = JSON.parse(localStorage.getItem('fisheyeMediasLiked')); // retourne un objet
+        for(let mediaLikedByUserStorage of mediasLikedByUserStorage){
+            if(mediaLikedByUserStorage.idPhotographer*1 === idPhotographer){
+                for (let mediaLikeButton of mediaLikeButtons) {
+                    let mediaLikeButtonDataId = mediaLikeButton.getAttribute("media-id")*1;
+                    if(mediaLikedByUserStorage.idMedia*1 === mediaLikeButtonDataId){
+                        //On ajoute la classe "liked" sur les boutons like qui ont déjà été likés
+                        mediaLikeButton.classList.add("liked");
+                        mediaLikeButton.setAttribute("media-liked", true);
+                        let countValue = mediaLikeButton.firstElementChild.textContent*1; // *1 retourne un nombre à la place d'une châine de caractère
+                        let countValueAdded = countValue + 1;
+                        mediaLikeButton.firstElementChild.innerHTML = countValueAdded;
                     }
                 }
-                //console.log(mediasLikedByUser);
             }
-            return ({mediasLikedByUser: [...mediasLikedByUser]})
+        }
+    }
+
+    //ensuite, pour chaque bouton like, soit il n'a jamais été liké, soit le contraire
+    for (let mediaLikeButton of mediaLikeButtons) {
+        let idMedia = mediaLikeButton.getAttribute('media-id');
+        mediaLikeButton.addEventListener('click', (event) => {
+            if(mediaLikeButton.getAttribute('media-liked') === "true"){ // le média est déjà liké
+                // on retire la classe "liked"
+                mediaLikeButton.classList.remove("liked");
+                // on passe l'attribut "media-liked" sur false
+                mediaLikeButton.setAttribute("media-liked", false);
+                // on retire -1 à la valeur de like
+                let countValue = mediaLikeButton.firstElementChild.textContent*1;
+                let countValueAdded = countValue - 1;
+                mediaLikeButton.firstElementChild.innerHTML = countValueAdded;
+                // on récupère le contenu de localStorage, pour en faire un nouveau tableau
+                let newMediasLiked = JSON.parse(localStorage.getItem('fisheyeMediasLiked'));
+                // on retire l'élément du nouveau tableau
+                for (let i in newMediasLiked) {
+                    if (newMediasLiked[i].idMedia === idMedia) {
+                        newMediasLiked.splice(i,1);
+                    }
+                }
+                // on transforme le nouveau tableau vers localStorage
+                localStorage.setItem('fisheyeMediasLiked', JSON.stringify(newMediasLiked));
+                // il n'y a plus qu'à retirer 1 au total de likes
+                let photographFooterCounter = document.querySelector(".footer_infos__counter__number");
+                likesCounterNew = photographFooterCounter.textContent*1 - 1;
+                photographFooterCounter.textContent = likesCounterNew;
+            } else if (mediaLikeButton.getAttribute('media-liked') === "false"){ // le média n'a pas encore été liké
+                // on ajoute la classe "liked"
+                mediaLikeButton.classList.add("liked");
+                // on passe l'attribut "media-liked" sur true
+                mediaLikeButton.setAttribute("media-liked", true);
+                // on ajoute +1 à la valeur de like
+                let countValue = mediaLikeButton.firstElementChild.textContent*1;
+                let countValueAdded = countValue + 1;
+                mediaLikeButton.firstElementChild.innerHTML = countValueAdded;
+                // on crée un nouvel objet Like pour localStorage
+                let idPhotographer = mediaLikeButton.getAttribute('media-author');
+                let newLike = new Like(idMedia,idPhotographer);
+                // // on ajoute l'élément à localStorage
+                let newMediasLiked = JSON.parse(localStorage.getItem('fisheyeMediasLiked'));
+                newMediasLiked.push(newLike);
+                localStorage.setItem('fisheyeMediasLiked', JSON.stringify(newMediasLiked));
+                // il n'y a plus qu'à ajouter 1 au total de likes
+                let photographFooterCounter = document.querySelector(".footer_infos__counter__number");
+                likesCounterNew = photographFooterCounter.textContent*1 + 1;
+                photographFooterCounter.textContent = likesCounterNew;
+            }
         });
     }
-    return ({mediasLikedByUser: [...mediasLikedByUser]})
 }
 
 
