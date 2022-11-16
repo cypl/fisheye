@@ -107,21 +107,19 @@ class Like {
 }
 async function mediaLike(){
     const mediaLikeButtons = document.getElementsByClassName("media__like__wrapper");
-    //on crée un array pour stocker les médias qui on été liké par l'utilisateur OU on récupère les objets déjà contenu dans localStorage
-    let mediasLikedByUserStorage = JSON.parse(localStorage.getItem('fisheyeMediasLiked')) || [];
     
     // si des médias ont déjà été likés, on les retrouve dans localStorage, et on leur rajoute la classe "liked" et +1 à la somme de likes
     if ("fisheyeMediasLiked" in localStorage) {
-        let mediasLikedByUserStorage = JSON.parse(localStorage.getItem('fisheyeMediasLiked')); // retourne un objet
+        const mediasLikedByUserStorage = JSON.parse(localStorage.getItem('fisheyeMediasLiked')); // retourne un objet
         for(let mediaLikedByUserStorage of mediasLikedByUserStorage){
-            if(mediaLikedByUserStorage.idPhotographer*1 === idPhotographer){
+            if(+mediaLikedByUserStorage.idPhotographer === +idPhotographer){
                 for (let mediaLikeButton of mediaLikeButtons) {
-                    let mediaLikeButtonDataId = mediaLikeButton.getAttribute("media-id")*1;
-                    if(mediaLikedByUserStorage.idMedia*1 === mediaLikeButtonDataId){
+                    let mediaLikeButtonDataId = +mediaLikeButton.getAttribute("media-id");
+                    if(+mediaLikedByUserStorage.idMedia === mediaLikeButtonDataId){
                         //On ajoute la classe "liked" sur les boutons like qui ont déjà été likés
                         mediaLikeButton.classList.add("liked");
                         mediaLikeButton.setAttribute("media-liked", true);
-                        let countValue = mediaLikeButton.firstElementChild.textContent*1; // *1 retourne un nombre à la place d'une châine de caractère
+                        let countValue = +mediaLikeButton.firstElementChild.textContent; // *1 retourne un nombre à la place d'une châine de caractère
                         let countValueAdded = countValue + 1;
                         mediaLikeButton.firstElementChild.innerHTML = countValueAdded;
                     }
@@ -194,6 +192,7 @@ async function initPhotographer() {
     await displayHeader(singlePhotographer);
     await displayFooter(singlePhotographer,mediasPhotographer);
     await displayMedias(mediasPhotographer);
+    await photographerForm(singlePhotographer);
     await mediaLike();
 };
 initPhotographer();
