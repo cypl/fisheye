@@ -95,6 +95,17 @@ async function removeMedias() {
     photographMediasSection.innerHTML = "";
 };
 
+// On appelle la lightbox
+async function displayLightBox(mediasPhotographer) {
+    const lightBoxTriggers = document.getElementsByClassName("media__img");
+    for (const t of lightBoxTriggers) {
+        t.addEventListener('click', (event) => {
+            // on construit la lightbox
+            showLightbox(mediasPhotographer);
+        });
+    }
+};
+
 
 // On crée une fonction pour liker les médias
 // à  chaque like, le total est incrémenté de 1, et inversement
@@ -192,6 +203,7 @@ async function initPhotographer() {
     await displayHeader(singlePhotographer);
     await displayFooter(singlePhotographer,mediasPhotographer);
     await displayMedias(mediasPhotographer);
+    await displayLightBox(mediasPhotographer);
     await photographerForm(singlePhotographer);
     await mediaLike();
 };
@@ -200,21 +212,22 @@ initPhotographer();
 
 
 // On crée les fonctions qui vont ré-afficher la liste lorsque l'on clique sur un critère de filtre, selon un nouvel ordre
-async function initPhotographerByDRY(classification){
+async function initPhotographerBy(classification){
     const { media } = await getPhotographers();
     const mediasPhotographer = await findMedias(media,classification);
     await removeMedias();
     await displayMedias(mediasPhotographer);
+    await displayLightBox(mediasPhotographer);
     await mediaLike();
 }
 async function initPhotographerByTitle(){
-    initPhotographerByDRY(sortByDesc("title"));
+    initPhotographerBy(sortByDesc("title"));
 }
 async function initPhotographerByDate(){
-    initPhotographerByDRY(sortByDesc("date"));
+    initPhotographerBy(sortByDesc("date"));
 }
 async function initPhotographerByLikes(){
-    initPhotographerByDRY(sortByAsc("likes"));
+    initPhotographerBy(sortByAsc("likes"));
 }
 
 const sortByLikes = document.getElementById("sort-by-likes");

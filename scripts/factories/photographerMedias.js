@@ -18,6 +18,7 @@ function photographerMediasFactory(data) {
         const urlImage = `../assets/medias-thumbnails/` + image;
         mediaArticleImg.setAttribute("src", urlImage);
         mediaArticleImg.setAttribute("alt", title);
+        mediaArticleImg.setAttribute("media-id", id);
         mediaArticleFigure.appendChild(mediaArticleImg);
     } 
     if(video){ // dans le cas où on a une vidéo, on affiche une image extraite de la vidéo
@@ -26,6 +27,7 @@ function photographerMediasFactory(data) {
         const urlImage = `../assets/medias/` + filenameJpg;
         mediaArticleImg.setAttribute("src", urlImage);
         mediaArticleImg.setAttribute("alt", title);
+        mediaArticleImg.setAttribute("media-id", id);
         mediaArticleImg.classList.add("media__img-video");
         const iconVideo = document.createElement("span");
         iconVideo.classList.add("media__icon_video");
