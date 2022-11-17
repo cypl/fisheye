@@ -288,11 +288,14 @@
     right: 20px;
 }
 
-.modal header h2 {
+.modal header #form_title {
     font-size: 36px;
     line-height: 46px;
     font-weight: 400;
     margin-bottom: 30px;
+}
+.modal header #form_title span{
+    color:#D3573C;
 }
 
 form {

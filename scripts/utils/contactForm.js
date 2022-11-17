@@ -31,7 +31,7 @@ async function photographerForm(data) {
     const { name } = data;  // les éléments entre {} représentent les types de datas de l'élément “photographer” 
     const formTitle = document.getElementById("form_title");
     const formTitleName = document.createElement("span");
-    formTitleName.innerHTML = ",<br>" + name;
+    formTitleName.innerHTML = " " + name;
     formTitle.appendChild(formTitleName);
 }
 
