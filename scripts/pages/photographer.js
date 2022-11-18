@@ -98,10 +98,57 @@ async function removeMedias() {
 // On appelle la lightbox
 async function displayLightBox(mediasPhotographer) {
     const lightBoxTriggers = document.getElementsByClassName("media__img");
+    // la lightbox s'ouvre lorsque l'on clique sur un média
     for (const t of lightBoxTriggers) {
         t.addEventListener('click', (event) => {
-            // on construit la lightbox
-            showLightbox(mediasPhotographer);
+            // 1 - On construit la lightbox
+            buildLightBox();
+
+            // 2 - on recherche le média sur lequel on a cliqué dans le tableau "mediasPhotographer"
+            // ID de l'objet ciblé par le clic
+            let mediaId = +event.target.getAttribute("media-id"); // retourne un nombre
+            // index de l'objet ciblé dans le tableau "mediasPhotographer"
+            let mediaIndex = mediasPhotographer.findIndex(x => x.id === mediaId); // retourne un index
+
+            showSlides(mediasPhotographer, mediaIndex);
+
+            // Changement de slide
+            const next = document.getElementById("lightbox_next");
+            const prev = document.getElementById("lightbox_prev");
+            next.addEventListener('click', (event) => {
+                //nextSlide(mediasPhotographer, mediaIndex);
+                document.querySelector(".slide").remove();
+                if(mediaIndex < mediasPhotographer.length - 1){  // si l'index du media peut être augmenté de 1
+                    showSlides(mediasPhotographer, mediaIndex += 1);
+                } else { // sinon on est arrivé à la fin de la liste, alors il faut revenir au début
+                    showSlides(mediasPhotographer, 0);
+                    //removeLightBox();
+                }
+            });
+            prev.addEventListener('click', (event) => {
+                //prevSlide(mediasPhotographer, mediaIndex);
+                document.querySelector(".slide").remove();
+                if(mediaIndex != 0){  // si l'index du media est différent du premier de la liste
+                    showSlides(mediasPhotographer, mediaIndex -= 1);
+                } else { // on est arrivé au début de la liste
+                    showSlides(mediasPhotographer, mediasPhotographer.length - 1);
+                    //removeLightBox();
+                }
+            });
+
+            
+            // Pour détruire la lightbox, on fait appel à des éléments html qui ont été créés par buildLightBox();
+            if(document.getElementById("lightbox_close")){
+                document.getElementById("lightbox_close").addEventListener('click', (event) => {
+                    removeLightBox();
+                });
+                document.addEventListener("keydown", (e) => {
+                    if(e.key === "Escape") {
+                        removeLightBox();
+                    }
+                });
+            }
+            
         });
     }
 };
