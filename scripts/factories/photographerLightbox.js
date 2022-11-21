@@ -37,7 +37,6 @@ function removeLightBox() {
 // On définit un index de départ, c'est l'image que laquelle on a cliqué
 function showSlides(mediasPhotographer, mediaIndex){
     
-    console.log(mediaIndex);
     // data medias
     //On recherche l'objet correspondant grâce à mediaIndex
     const mediaTarget = mediasPhotographer[mediaIndex]; // retourne l'objet du média sur lequel on a cliqué

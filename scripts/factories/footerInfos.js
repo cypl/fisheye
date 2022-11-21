@@ -2,7 +2,6 @@
 function photographerFooterFactory(data, medias) { 
 
     const { price } = data;  // les éléments entre {} représentent les types de datas de l'élément “photographer” 
-    //const { likes } = medias;  // les éléments entre {} représentent les types de datas de l'élément “photographer” 
     const photographFooter = document.querySelector("#footer_infos");
     const photographFooterP = document.createElement("p");
     photographFooterP.classList.add("footer_infos__p");

@@ -4,30 +4,32 @@ const urlParameters = new URLSearchParams(queryString);
 const idPhotographer = parseInt(urlParameters.get('id')) // = ID du photographe
 
 
-// On fait une requête sur le fichier JSON, et on retourne une promise 
-async function photographersApi() {
-    const urlData = "../data/photographers.json";
-    const photographers = await fetch(urlData); 
-    return photographers.json(); // = Promise
-}
+// // On fait une requête sur le fichier JSON, et on retourne une promise 
+// async function photographersApi() {
+//     const urlData = "../data/photographers.json";
+//     const photographers = await fetch(urlData); 
+//     return photographers.json(); // = Promise
+// }
 
 
-// On récupère le resultat de la promise issue de photographersApi(), et on retourne le resultat une fois que la requête a abouti 
-async function getPhotographers() {
-    return await photographersApi(); // = Datas qui résultent de la Promise
-};
+// // On récupère le resultat de la promise issue de photographersApi(), et on retourne le resultat une fois que la requête a abouti 
+// async function getPhotographers() {
+//     return await photographersApi(); // = Datas qui résultent de la Promise
+// };
 
 
 // Dans le tableau, on cherche le photographe qui a cet ID, et on retourne l'objet correspondant
 async function findPhotographer(photographers) {
     // on filtre le tableau des photographes pour retouver le bon, grâce à son ID.
     const singlePhotographer = photographers.find(photographer => photographer.id === idPhotographer);
-    return await singlePhotographer;
+    //console.log(singlePhotographer);
+    //return await singlePhotographer;
+    return singlePhotographer;
 };
 
 
 // A partir de cet Objet, on peut générer le template pour le header
-async function displayHeader(singlePhotographer) { // c'est là où il faut appeler la photographerCardFactory
+async function displayHeader(singlePhotographer) { 
     photographerCardFactory(singlePhotographer);
 };
 
@@ -241,14 +243,14 @@ async function mediaLike(){
 
 // Fonction pour charger l'ensemble des éléments au chargement de la page
 async function initPhotographer() {
-    const { photographers } = await getPhotographers(); // ce qu'il y a entre {} correspond à la propriété de l'objet que l'on souhaite récupérer
-    const { media } = await getPhotographers(); 
+    const photographers = await requestPhotographers();
+    const media = await requestMedia();
     // On sort un objet avec uniquement le photographe concerné
     const singlePhotographer = await findPhotographer(photographers); // retourne l'objet du photographe
     const mediasPhotographer = await findMedias(media,sortByAsc("likes")); // retourne l'objet media du photographe, avec la collections d'images
     // A partir de cet Objet, on génére le template pour le header
     await displayHeader(singlePhotographer);
-    await displayFooter(singlePhotographer,mediasPhotographer);
+    await displayFooter(singlePhotographer, mediasPhotographer);
     await displayMedias(mediasPhotographer);
     await displayLightBox(mediasPhotographer);
     await photographerForm(singlePhotographer);
@@ -257,10 +259,9 @@ async function initPhotographer() {
 initPhotographer();
 
 
-
 // On crée les fonctions qui vont ré-afficher la liste lorsque l'on clique sur un critère de filtre, selon un nouvel ordre
 async function initPhotographerBy(classification){
-    const { media } = await getPhotographers();
+    const media = await requestMedia();
     const mediasPhotographer = await findMedias(media,classification);
     await removeMedias();
     await displayMedias(mediasPhotographer);

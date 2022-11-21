@@ -1,6 +1,6 @@
-function photographerCardFactory(data) { 
+function photographerCardFactory(data) {  // data représente l'objet singlePhotographer 
 
-    const { name, portrait, city, country, tagline, price } = data;  // les éléments entre {} représentent les types de datas de l'élément “photographer” 
+    const { name, portrait, city, country, tagline} = data;  // les éléments entre {} représentent les types de datas de l'élément “photographer” 
 
     // on récupère la balise ".photograph-header" dans laquelle on va ajouter les autres éléments 
     const photographHeader = document.querySelector(".photograph-header");
