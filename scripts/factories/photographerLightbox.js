@@ -27,20 +27,13 @@ function buildLightBox() {
     lightBoxBackground.appendChild(prev);
 }
 
-// Fermer la lightbox
-function removeLightBox() {
-    document.body.style.overflow = "scroll";
-    const lightBoxBackground = document.getElementById("lightbox_background");
-    if(lightBoxBackground){lightBoxBackground.remove();}
-}
-
-// On définit un index de départ, c'est l'image que laquelle on a cliqué
+// On crée une slide à partir de l'index du média sur lequel on on a cliqué
 function showSlides(mediasPhotographer, mediaIndex){
-    
+    console.log("slide actuelle : " + mediaIndex);
     // data medias
-    //On recherche l'objet correspondant grâce à mediaIndex
+    //On recherche l'objet correspondant dans le tableau mediasPhotographer grâce à mediaIndex
     const mediaTarget = mediasPhotographer[mediaIndex]; // retourne l'objet du média sur lequel on a cliqué
-    const { id, photographerId, title, image, video, likes, date, price } = mediaTarget;  // les éléments entre {} représentent les types de datas de l'élément media 
+    const { title, image, video } = mediaTarget;  // les éléments entre {} représentent les types de datas de l'élément media 
 
     const lightBoxContainer = document.getElementById("lightbox_container");
     const lightBoxSlide = document.createElement("div");
@@ -77,20 +70,48 @@ function showSlides(mediasPhotographer, mediaIndex){
     }
 }
 
-function nextSlide(mediasPhotographer, mediaIndex) { 
-    document.querySelector(".slide").remove();
-    let slidesTotal = mediasPhotographer.length - 1;
-    if(mediaIndex < slidesTotal){  // si l'index du media peut être augmenté de 1
-        showSlides(mediasPhotographer, mediaIndex += 1);
-    } else { // sinon on est arrivé à la fin de la liste
-        removeLightBox();
+// On détruit la lightbox
+function removeLightBox() {
+    if(document.getElementById("lightbox_close")){
+        document.getElementById("lightbox_close").addEventListener('click', (event) => {
+            document.body.style.overflow = "scroll";
+            const lightBoxBackground = document.getElementById("lightbox_background");
+            if(lightBoxBackground){lightBoxBackground.remove();}
+        });
+        document.addEventListener("keydown", (e) => {
+            if(e.key === "Escape") {
+                document.body.style.overflow = "scroll";
+                const lightBoxBackground = document.getElementById("lightbox_background");
+                if(lightBoxBackground){lightBoxBackground.remove();}
+            }
+        });
     }
 }
+
+// On crée une fonction pour charger la slide suivante
+function nextSlide(mediasPhotographer, mediaIndex) { 
+    const next = document.getElementById("lightbox_next");
+    next.addEventListener('click', (event) => {
+        console.log("slide cliquée : " + mediaIndex);
+        document.querySelector(".slide").remove();
+        if(mediaIndex < mediasPhotographer.length - 1){  // si l'index du media peut être augmenté de 1
+            showSlides(mediasPhotographer, mediaIndex += 1);
+        } else { // sinon on est arrivé à la fin de la liste, alors il faut revenir au début
+            showSlides(mediasPhotographer, 0);
+        }
+    });
+}
+
+// On crée une fonction pour charger la slide précédente
 function prevSlide(mediasPhotographer, mediaIndex) { 
-    document.querySelector(".slide").remove();
-    if(mediaIndex != 0){  // si l'index du media est différent du premier de la liste
-        showSlides(mediasPhotographer, mediaIndex -= 1);
-    } else { // on est arrivé au début de la liste
-        removeLightBox();
-    }
+    const prev = document.getElementById("lightbox_prev");
+    prev.addEventListener('click', (event) => {
+        console.log("slide cliquée : " + mediaIndex);
+        document.querySelector(".slide").remove();
+        if(mediaIndex != 0){  // si l'index du media est différent du premier de la liste
+            showSlides(mediasPhotographer, mediaIndex -= 1);
+        } else { // on est arrivé au début de la liste
+            showSlides(mediasPhotographer, mediasPhotographer.length - 1);
+        }
+    });
 } 
