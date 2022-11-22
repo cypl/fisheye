@@ -145,7 +145,7 @@ async function displayLightBox(mediasPhotographer) {
 // si des médias ont déjà été likés, on les retrouve dans localStorage, et on leur rajoute la classe "liked" et +1 à la somme de likes
 async function mediaAlreadyLiked(){
     const mediaLikeButtons = document.getElementsByClassName("media__like__wrapper");
-    // 1 - s'il y a localStorage
+    // 1 - si l'utilisateur a déjà liké des média pour ce photographe, l'ID des médias sont dans localStorage "fisheyeMediasLiked"
     if ("fisheyeMediasLiked" in localStorage) {
         const mediasLikedByUserStorage = JSON.parse(localStorage.getItem('fisheyeMediasLiked')); // retourne un array d'objets
         for (let mediaLikeButton of mediaLikeButtons) {
@@ -161,13 +161,21 @@ async function mediaAlreadyLiked(){
     }
 }
 
-// On crée une fonction pour liker les médias
-// à  chaque like, le total est incrémenté de 1, et inversement
-// à  chaque like, on enregistre le média liké dans localStorage
-class Like {
+// On crée une fonction pour liker les médias mediaLike();
+// localStorage "fisheyeMediasLiked" est temporaire, on imagine que ce qu'il contient viendrait alimenter la base de données du site et serait ensuite vidé
+class Like { // l'objet "Like" va permettre d'enregistrer dans localStorage "fisheyeMediasLiked" de nouvelles instances de média liké.
     constructor(idMedia, idPhotographer) {
         this.idMedia = idMedia;
         this.idPhotographer = idPhotographer;
+    }
+}
+// On crée fonction pour mettre à jour le nombre total de likes du photographe
+function updateTotalLike(status){
+    const photographFooterCounter = document.querySelector(".footer_infos__counter__number");
+    if(status == true){ //status == true va incrémenter le total de 1
+        photographFooterCounter.textContent = +photographFooterCounter.textContent + 1;
+    } else { //status == false va décrémenter le total de 1
+        photographFooterCounter.textContent = +photographFooterCounter.textContent - 1;
     }
 }
 async function mediaLike(){
@@ -180,10 +188,9 @@ async function mediaLike(){
             if(mediaLikeButton.getAttribute('media-liked') === "true"){ 
                 mediaLikeButton.classList.remove("liked");
                 mediaLikeButton.setAttribute("media-liked", false);
-                // on retire -1 à la valeur de like
                 const mediaLikeButtonCounter = mediaLikeButton.querySelector(".media__like__counter");
                 mediaLikeButtonCounter.textContent = +mediaLikeButtonCounter.textContent - 1;
-                // on récupère le contenu de localStorage, pour en faire un nouveau tableau
+                // on récupère le contenu de localStorage "fisheyeMediasLiked", pour en faire un nouveau tableau
                 let newMediasLiked = JSON.parse(localStorage.getItem('fisheyeMediasLiked'));
                 // on retire l'élément du nouveau tableau
                 for (let i in newMediasLiked) {
@@ -191,31 +198,26 @@ async function mediaLike(){
                         newMediasLiked.splice(i,1);
                     }
                 }
-                // on transforme le nouveau tableau vers localStorage
+                // et on transforme le nouveau tableau en localStorage "fisheyeMediasLiked"
                 localStorage.setItem('fisheyeMediasLiked', JSON.stringify(newMediasLiked));
                 // il n'y a plus qu'à retirer 1 au total de likes
-                let photographFooterCounter = document.querySelector(".footer_infos__counter__number");
-                likesCounterNew = photographFooterCounter.textContent*1 - 1;
-                photographFooterCounter.textContent = likesCounterNew;
+                updateTotalLike(false);
             } 
             // pour liker
             else { 
                 mediaLikeButton.classList.add("liked");
                 mediaLikeButton.setAttribute("media-liked", true);
-                // on ajoute +1 à la valeur de like
                 const mediaLikeButtonCounter = mediaLikeButton.querySelector(".media__like__counter");
                 mediaLikeButtonCounter.textContent = +mediaLikeButtonCounter.textContent + 1;
-                // on crée un nouvel objet Like pour localStorage
+                // on crée un nouvel objet Like pour localStorage "fisheyeMediasLiked"
                 let idPhotographer = mediaLikeButton.getAttribute('media-author');
                 let newLike = new Like(idMedia,idPhotographer);
-                // // on ajoute l'élément à localStorage
+                // et on ajoute cet objet à localStorage "fisheyeMediasLiked"
                 let newMediasLiked = JSON.parse(localStorage.getItem('fisheyeMediasLiked')) || [];
                 newMediasLiked.push(newLike);
                 localStorage.setItem('fisheyeMediasLiked', JSON.stringify(newMediasLiked));
                 // il n'y a plus qu'à ajouter 1 au total de likes
-                let photographFooterCounter = document.querySelector(".footer_infos__counter__number");
-                likesCounterNew = photographFooterCounter.textContent*1 + 1;
-                photographFooterCounter.textContent = likesCounterNew;
+                updateTotalLike(true);
             }
         });
     }
