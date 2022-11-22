@@ -201,7 +201,7 @@ async function mediaLike(){
                 // et on transforme le nouveau tableau en localStorage "fisheyeMediasLiked"
                 localStorage.setItem('fisheyeMediasLiked', JSON.stringify(newMediasLiked));
                 // il n'y a plus qu'à retirer 1 au total de likes
-                updateTotalLike(false);
+                updateTotalLike(false); // -1
             } 
             // pour liker
             else { 
@@ -217,7 +217,7 @@ async function mediaLike(){
                 newMediasLiked.push(newLike);
                 localStorage.setItem('fisheyeMediasLiked', JSON.stringify(newMediasLiked));
                 // il n'y a plus qu'à ajouter 1 au total de likes
-                updateTotalLike(true);
+                updateTotalLike(true); // +1
             }
         });
     }
