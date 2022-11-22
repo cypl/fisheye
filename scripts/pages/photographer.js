@@ -17,6 +17,7 @@ async function displayHeader(singlePhotographer) {
     photographerCardFactory(singlePhotographer);
 };
 
+
 // A partir de cet Objet, on peut générer le template pour le footer
 async function displayFooter(singlePhotographer, mediasPhotographer) { // c'est là où il faut appeler la photographerFooterFactory
     photographerFooterFactory(singlePhotographer, mediasPhotographer);
@@ -140,6 +141,26 @@ async function displayLightBox(mediasPhotographer) {
 };
 
 
+// On affiche les médias déjà likés par l'utilisateur
+// si des médias ont déjà été likés, on les retrouve dans localStorage, et on leur rajoute la classe "liked" et +1 à la somme de likes
+async function mediaAlreadyLiked(){
+    const mediaLikeButtons = document.getElementsByClassName("media__like__wrapper");
+    // 1 - s'il y a localStorage
+    if ("fisheyeMediasLiked" in localStorage) {
+        const mediasLikedByUserStorage = JSON.parse(localStorage.getItem('fisheyeMediasLiked')); // retourne un array d'objets
+        for (let mediaLikeButton of mediaLikeButtons) {
+            let mediaLikeButtonDataId = +mediaLikeButton.getAttribute("media-id");
+            // si mediaLikeButtonDataId est présent dans localStorage
+            if(mediasLikedByUserStorage.some(item => +item.idMedia === mediaLikeButtonDataId)){
+                mediaLikeButton.classList.add("liked");
+                mediaLikeButton.setAttribute("media-liked", true);
+                const mediaLikeButtonCounter = document.querySelector(".media__like__counter");
+                mediaLikeButtonCounter.textContent = +mediaLikeButtonCounter.textContent + 1;
+            }
+        }
+    }
+}
+
 // On crée une fonction pour liker les médias
 // à  chaque like, le total est incrémenté de 1, et inversement
 // à  chaque like, on enregistre le média liké dans localStorage
@@ -151,40 +172,17 @@ class Like {
 }
 async function mediaLike(){
     const mediaLikeButtons = document.getElementsByClassName("media__like__wrapper");
-    
-    // si des médias ont déjà été likés, on les retrouve dans localStorage, et on leur rajoute la classe "liked" et +1 à la somme de likes
-    if ("fisheyeMediasLiked" in localStorage) {
-        const mediasLikedByUserStorage = JSON.parse(localStorage.getItem('fisheyeMediasLiked')); // retourne un objet
-        for(let mediaLikedByUserStorage of mediasLikedByUserStorage){
-            if(+mediaLikedByUserStorage.idPhotographer === +idPhotographer){
-                for (let mediaLikeButton of mediaLikeButtons) {
-                    let mediaLikeButtonDataId = +mediaLikeButton.getAttribute("media-id");
-                    if(+mediaLikedByUserStorage.idMedia === mediaLikeButtonDataId){
-                        //On ajoute la classe "liked" sur les boutons like qui ont déjà été likés
-                        mediaLikeButton.classList.add("liked");
-                        mediaLikeButton.setAttribute("media-liked", true);
-                        let countValue = +mediaLikeButton.firstElementChild.textContent; // *1 retourne un nombre à la place d'une châine de caractère
-                        let countValueAdded = countValue + 1;
-                        mediaLikeButton.firstElementChild.innerHTML = countValueAdded;
-                    }
-                }
-            }
-        }
-    }
-
     //ensuite, pour chaque bouton like, soit il n'a jamais été liké, soit le contraire
     for (let mediaLikeButton of mediaLikeButtons) {
         let idMedia = mediaLikeButton.getAttribute('media-id');
         mediaLikeButton.addEventListener('click', (event) => {
-            if(mediaLikeButton.getAttribute('media-liked') === "true"){ // le média est déjà liké
-                // on retire la classe "liked"
+            // pour dé-liker
+            if(mediaLikeButton.getAttribute('media-liked') === "true"){ 
                 mediaLikeButton.classList.remove("liked");
-                // on passe l'attribut "media-liked" sur false
                 mediaLikeButton.setAttribute("media-liked", false);
                 // on retire -1 à la valeur de like
-                let countValue = mediaLikeButton.firstElementChild.textContent*1;
-                let countValueAdded = countValue - 1;
-                mediaLikeButton.firstElementChild.innerHTML = countValueAdded;
+                const mediaLikeButtonCounter = mediaLikeButton.querySelector(".media__like__counter");
+                mediaLikeButtonCounter.textContent = +mediaLikeButtonCounter.textContent - 1;
                 // on récupère le contenu de localStorage, pour en faire un nouveau tableau
                 let newMediasLiked = JSON.parse(localStorage.getItem('fisheyeMediasLiked'));
                 // on retire l'élément du nouveau tableau
@@ -199,15 +197,14 @@ async function mediaLike(){
                 let photographFooterCounter = document.querySelector(".footer_infos__counter__number");
                 likesCounterNew = photographFooterCounter.textContent*1 - 1;
                 photographFooterCounter.textContent = likesCounterNew;
-            } else if (mediaLikeButton.getAttribute('media-liked') === "false"){ // le média n'a pas encore été liké
-                // on ajoute la classe "liked"
+            } 
+            // pour liker
+            else { 
                 mediaLikeButton.classList.add("liked");
-                // on passe l'attribut "media-liked" sur true
                 mediaLikeButton.setAttribute("media-liked", true);
                 // on ajoute +1 à la valeur de like
-                let countValue = mediaLikeButton.firstElementChild.textContent*1;
-                let countValueAdded = countValue + 1;
-                mediaLikeButton.firstElementChild.innerHTML = countValueAdded;
+                const mediaLikeButtonCounter = mediaLikeButton.querySelector(".media__like__counter");
+                mediaLikeButtonCounter.textContent = +mediaLikeButtonCounter.textContent + 1;
                 // on crée un nouvel objet Like pour localStorage
                 let idPhotographer = mediaLikeButton.getAttribute('media-author');
                 let newLike = new Like(idMedia,idPhotographer);
@@ -238,6 +235,7 @@ async function initPhotographer() {
     await displayMedias(mediasPhotographer);
     await displayLightBox(mediasPhotographer);
     await photographerForm(singlePhotographer);
+    await mediaAlreadyLiked();
     await mediaLike();
 };
 initPhotographer();
@@ -250,6 +248,7 @@ async function initPhotographerBy(classification){
     await removeMedias();
     await displayMedias(mediasPhotographer);
     await displayLightBox(mediasPhotographer);
+    await mediaAlreadyLiked();
     await mediaLike();
 }
 async function initPhotographerByTitle(){
