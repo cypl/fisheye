@@ -74,13 +74,13 @@ function showSlides(mediasPhotographer, mediaIndex){
 function removeLightBox() {
     if(document.getElementById("lightbox_close")){
         document.getElementById("lightbox_close").addEventListener('click', (event) => {
-            document.body.style.overflow = "scroll";
+            document.body.style.overflow = "auto";
             const lightBoxBackground = document.getElementById("lightbox_background");
             if(lightBoxBackground){lightBoxBackground.remove();}
         });
         document.addEventListener("keydown", (e) => {
             if(e.key === "Escape") {
-                document.body.style.overflow = "scroll";
+                document.body.style.overflow = "auto";
                 const lightBoxBackground = document.getElementById("lightbox_background");
                 if(lightBoxBackground){lightBoxBackground.remove();}
             }
