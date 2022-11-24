@@ -5,7 +5,7 @@ const idPhotographer = parseInt(urlParameters.get('id')) // = ID du photographe
 
 
 // Dans le tableau, on cherche le photographe qui a cet ID, et on retourne l'objet correspondant
-async function findPhotographer(photographers) {
+function findPhotographer(photographers) {
     // on filtre le tableau des photographes pour retouver le bon, grâce à son ID.
     const singlePhotographer = photographers.find(photographer => photographer.id === idPhotographer);
     return singlePhotographer;
@@ -13,19 +13,19 @@ async function findPhotographer(photographers) {
 
 
 // A partir de cet Objet, on peut générer le template pour le header
-async function displayHeader(singlePhotographer) { 
+function displayHeader(singlePhotographer) { 
     photographerCardFactory(singlePhotographer);
 };
 
 
 // A partir de cet Objet, on peut générer le template pour le footer
-async function displayFooter(singlePhotographer, mediasPhotographer) { // c'est là où il faut appeler la photographerFooterFactory
+function displayFooter(singlePhotographer, mediasPhotographer) { // c'est là où il faut appeler la photographerFooterFactory
     photographerFooterFactory(singlePhotographer, mediasPhotographer);
 };
 
 
 // On recherche les médias qui ont l'ID du photographe et on les classe dans un tableau "arrayMedias"
-async function findMedias(media, classification) {
+function findMedias(media, classification) {
     // on filtre le tableau des photographes pour retouver le bon, grâce à son ID.
     const arrayMedias = [];
     for (const element of media) {
@@ -66,7 +66,7 @@ function sortByDesc(property){
 
 
 // On utilise le tableau "arrayMedias" comme paramètre "mediasPhotographer", afin d'afficher une fiche correspondante à chaque média
-async function displayMedias(mediasPhotographer){
+function displayMedias(mediasPhotographer){
     const photographMediasSection = document.querySelector(".photograph-medias");
     mediasPhotographer.forEach((media) => {
         //les datas de chaque media sont chargées selon le template de la fonction photographerMediasFactory();
@@ -77,14 +77,14 @@ async function displayMedias(mediasPhotographer){
 
 
 // On crée une fonction pour vider les éléments médias au moment du changement de filtre
-async function removeMedias() {
+function removeMedias() {
     const photographMediasSection = document.querySelector(".photograph-medias");
     photographMediasSection.innerHTML = "";
 };
 
 
 // On crée une fonction pour appeller la lightbox
-async function displayLightBox(mediasPhotographer) {
+function displayLightBox(mediasPhotographer) {
     const lightBoxTriggers = document.getElementsByClassName("media__img");
     // la lightbox s'ouvre lorsque l'on clique sur un média
     for (const t of lightBoxTriggers) {
@@ -110,7 +110,7 @@ async function displayLightBox(mediasPhotographer) {
 
 // On affiche les médias déjà likés par l'utilisateur
 // si des médias ont déjà été likés, on les retrouve dans localStorage, et on leur rajoute la classe "liked" et +1 à la somme de likes
-async function mediaAlreadyLiked(){
+function mediaAlreadyLiked(){
     const mediaLikeButtons = document.getElementsByClassName("media__like__wrapper");
     // 1 - si l'utilisateur a déjà liké des média pour ce photographe, l'ID des médias sont dans localStorage "fisheyeMediasLiked"
     if ("fisheyeMediasLiked" in localStorage) {
@@ -145,7 +145,7 @@ function updateTotalLike(status){
         photographFooterCounter.textContent = +photographFooterCounter.textContent - 1;
     }
 }
-async function mediaLike(){
+function mediaLike(){
     const mediaLikeButtons = document.getElementsByClassName("media__like__wrapper");
     //ensuite, pour chaque bouton like, soit il n'a jamais été liké, soit le contraire
     for (let mediaLikeButton of mediaLikeButtons) {
@@ -199,38 +199,18 @@ async function initPhotographer() {
     const singlePhotographer = await findPhotographer(photographers); // retourne l'objet du photographe
     const mediasPhotographer = await findMedias(media,sortByAsc("likes")); // retourne l'objet media du photographe, avec la collections d'images
     // A partir de cet Objet, on génére le template pour le header
-    await displayHeader(singlePhotographer);
-    await displayFooter(singlePhotographer, mediasPhotographer);
-    await displayMedias(mediasPhotographer);
-    await displayLightBox(mediasPhotographer);
-    await photographerForm(singlePhotographer);
-    await mediaAlreadyLiked();
-    await mediaLike();
+    displayHeader(singlePhotographer);
+    displayFooter(singlePhotographer, mediasPhotographer);
+    displayMedias(mediasPhotographer);
+    displayLightBox(mediasPhotographer);
+    photographerForm(singlePhotographer);
+    mediaAlreadyLiked();
+    mediaLike();
 };
 initPhotographer();
 
 
-// Fonction pour charger l'ensemble des éléments média lorsque l'on utilise le filtre
-async function initPhotographerBy(classification){
-    const media = await requestMedia(); 
-    const mediasPhotographer = await findMedias(media,classification);
-    // trop de await là ?
-    await removeMedias();
-    await displayMedias(mediasPhotographer);
-    await displayLightBox(mediasPhotographer);
-    await mediaAlreadyLiked();
-    await mediaLike();
-}
-async function initPhotographerByTitle(){
-    initPhotographerBy(sortByDesc("title"));
-}
-async function initPhotographerByDate(){
-    initPhotographerBy(sortByDesc("date"));
-}
-async function initPhotographerByLikes(){
-    initPhotographerBy(sortByAsc("likes"));
-}
-
+// Fonction pour charger l'ensemble des éléments média lorsque l'on utilise le dropdown
 const sortByLikes = document.getElementById("sort-by-likes");
 const sortByName = document.getElementById("sort-by-name");
 const sortByDate = document.getElementById("sort-by-date");
@@ -243,3 +223,22 @@ sortByDate.addEventListener('click', (event) => {
 sortByLikes.addEventListener('click', (event) => {
     initPhotographerByLikes();
 }); 
+
+async function initPhotographerBy(classification){
+    const media = await requestMedia(); 
+    const mediasPhotographer = await findMedias(media,classification);
+    removeMedias();
+    displayMedias(mediasPhotographer);
+    displayLightBox(mediasPhotographer);
+    mediaAlreadyLiked();
+    mediaLike();
+}
+async function initPhotographerByTitle(){
+    initPhotographerBy(sortByDesc("title"));
+}
+async function initPhotographerByDate(){
+    initPhotographerBy(sortByDesc("date"));
+}
+async function initPhotographerByLikes(){
+    initPhotographerBy(sortByAsc("likes"));
+}

@@ -459,9 +459,10 @@ form .contact_button{
 }
 .slide__video{
     width: 100%;
-    height: auto;
+    height: 100%;
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%,-50%);
+    background-color: #000;
 }
