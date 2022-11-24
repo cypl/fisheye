@@ -2,7 +2,7 @@
 function displayModal() {
     const modal = document.getElementById("contact_modal");
     const body = document.querySelector("body");
-    modal.style.transform = "translate(0,0)";
+    modal.style.display = "flex";
 	body.style.overflow = "hidden";
 }
 
@@ -10,8 +10,8 @@ function displayModal() {
 function closeModal() {
     const modal = document.getElementById("contact_modal");
     const body = document.querySelector("body");
-    modal.style.transform = "translate(-100%,0)";
-	body.style.overflow = "scroll";
+    modal.style.display = "none";
+	body.style.overflow = "auto";
 }
 
 // Fermer la fenêtre modale avec le bouton
