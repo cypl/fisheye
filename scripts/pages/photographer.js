@@ -212,8 +212,9 @@ initPhotographer();
 
 // Fonction pour charger l'ensemble des éléments média lorsque l'on utilise le filtre
 async function initPhotographerBy(classification){
-    const media = await requestMedia();
+    const media = await requestMedia(); 
     const mediasPhotographer = await findMedias(media,classification);
+    // trop de await là ?
     await removeMedias();
     await displayMedias(mediasPhotographer);
     await displayLightBox(mediasPhotographer);

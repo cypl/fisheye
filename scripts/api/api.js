@@ -4,6 +4,11 @@ async function fetchDatas() {
     const datas = await response.json();
     return datas;
 }
+// ajouter la gestion des erreurs
+// try catch
+// ajouter const {photographers} = await fetchDatas();
+// ajouter const {media} = await fetchDatas();
+
 
 // Dans l'objet JSON, on sort tous les photographes
 async function requestPhotographers(){

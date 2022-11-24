@@ -86,7 +86,7 @@
     top:-12px;
     display: inline-block;
     border-radius: 5px;
-    overflow: scroll;
+    overflow: hidden;
     z-index:1;
     background-color: #901C1C;
     box-shadow: 0 3px 5px rgba(0, 0, 0, 0.5);
