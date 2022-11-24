@@ -1,7 +1,6 @@
 // On construit la lightbox
 function buildLightBox() {
-    // on bloque le scroll sur "body"
-    document.body.style.overflow = "hidden";
+    
     // on crée le background de la lightbox
     const mainContainer = document.getElementById("main");
     const lightBoxBackground = document.createElement("div");
@@ -27,8 +26,24 @@ function buildLightBox() {
     lightBoxBackground.appendChild(prev);
 }
 
+function showLightBox() {
+    const lightBoxBackground = document.getElementById("lightbox_background");
+    lightBoxBackground.style.display = "block";
+    document.body.style.overflow = "hidden";
+}
+
+function hideLightBox() {
+    if(document.querySelector(".slide")){
+        document.querySelector(".slide").remove();
+    }
+    const lightBoxBackground = document.getElementById("lightbox_background");
+    lightBoxBackground.style.display = "none";
+    document.body.style.overflow = "auto";
+}
+
 // On crée une slide à partir de l'index du média sur lequel on on a cliqué
 function showSlides(mediasPhotographer, mediaIndex){
+
     // data medias
     //On recherche l'objet correspondant dans le tableau mediasPhotographer grâce à mediaIndex
     const mediaTarget = mediasPhotographer[mediaIndex]; // retourne l'objet du média sur lequel on a cliqué
@@ -69,28 +84,27 @@ function showSlides(mediasPhotographer, mediaIndex){
     }
 }
 
+
 // On détruit la lightbox
-function removeLightBox() {
+function closeLightBox() {
     if(document.getElementById("lightbox_close")){
         document.getElementById("lightbox_close").addEventListener('click', (event) => {
-            document.body.style.overflow = "auto";
-            const lightBoxBackground = document.getElementById("lightbox_background");
-            if(lightBoxBackground){lightBoxBackground.remove();}
+            hideLightBox();
         });
         document.addEventListener("keydown", (e) => {
             if(e.key === "Escape") {
-                document.body.style.overflow = "auto";
-                const lightBoxBackground = document.getElementById("lightbox_background");
-                if(lightBoxBackground){lightBoxBackground.remove();}
+                hideLightBox();
             }
         });
     }
 }
 
+
 // On crée une fonction pour charger la slide suivante
 function nextSlide(mediasPhotographer, mediaIndex) { 
     const next = document.getElementById("lightbox_next");
-    next.addEventListener('click', (event) => {
+    //next.addEventListener('click', (event) => {
+    next.onclick = (event) => {
         document.querySelector(".slide").remove();
         if(mediaIndex < mediasPhotographer.length - 1){  // si l'index du media peut être augmenté de 1
             showSlides(mediasPhotographer, mediaIndex += 1);
@@ -98,13 +112,15 @@ function nextSlide(mediasPhotographer, mediaIndex) {
             mediaIndex = 0;
             showSlides(mediasPhotographer, mediaIndex);
         }
-    });
+    };
 }
+
 
 // On crée une fonction pour charger la slide précédente
 function prevSlide(mediasPhotographer, mediaIndex) { 
     const prev = document.getElementById("lightbox_prev");
-    prev.addEventListener('click', (event) => {
+    //prev.addEventListener('click', (event) => {
+    prev.onclick = (event) => {
         document.querySelector(".slide").remove();
         if(mediaIndex > 0){  // si l'index du media est différent du premier de la liste
             showSlides(mediasPhotographer, mediaIndex -= 1);
@@ -112,5 +128,5 @@ function prevSlide(mediasPhotographer, mediaIndex) {
             mediaIndex = mediasPhotographer.length - 1;
             showSlides(mediasPhotographer, mediaIndex);
         }
-    });
+    };
 } 

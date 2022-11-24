@@ -86,12 +86,14 @@ function removeMedias() {
 // On crée une fonction pour appeller la lightbox
 function displayLightBox(mediasPhotographer) {
     const lightBoxTriggers = document.getElementsByClassName("media__img");
-    // la lightbox s'ouvre lorsque l'on clique sur un média
+    // 1 - On construit la lightbox
+    buildLightBox(); 
+    // la lightbox s'affiche lorsque l'on clique sur un média
     for (const t of lightBoxTriggers) {
         t.addEventListener('click', (event) => {
-            // 1 - On construit la lightbox
-            buildLightBox();
-            // 2 - On affiche la slide
+            // 1 - On affiche la lightbox
+            showLightBox();
+            // 2 - On affiche la slide correspondante
             // on recherche l'ID du média sur lequel on a cliqué
             let mediaId = +event.target.getAttribute("media-id"); 
             // on recherche l'index de l'objet ciblé dans le tableau "mediasPhotographer"
@@ -101,8 +103,8 @@ function displayLightBox(mediasPhotographer) {
             // 3 - Changement de slide
             nextSlide(mediasPhotographer, mediaIndex);
             prevSlide(mediasPhotographer, mediaIndex);
-            // 4 - Pour détruire la lightbox, on fait appel à des éléments html qui ont été créés par buildLightBox();
-            removeLightBox();
+            // 4 - Masquer la lightbox
+            closeLightBox();
         });
     }
 };
