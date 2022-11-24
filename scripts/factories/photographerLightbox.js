@@ -29,7 +29,6 @@ function buildLightBox() {
 
 // On crée une slide à partir de l'index du média sur lequel on on a cliqué
 function showSlides(mediasPhotographer, mediaIndex){
-    console.log("slide actuelle : " + mediaIndex);
     // data medias
     //On recherche l'objet correspondant dans le tableau mediasPhotographer grâce à mediaIndex
     const mediaTarget = mediasPhotographer[mediaIndex]; // retourne l'objet du média sur lequel on a cliqué
@@ -92,12 +91,12 @@ function removeLightBox() {
 function nextSlide(mediasPhotographer, mediaIndex) { 
     const next = document.getElementById("lightbox_next");
     next.addEventListener('click', (event) => {
-        console.log("slide cliquée : " + mediaIndex);
         document.querySelector(".slide").remove();
         if(mediaIndex < mediasPhotographer.length - 1){  // si l'index du media peut être augmenté de 1
             showSlides(mediasPhotographer, mediaIndex += 1);
         } else { // sinon on est arrivé à la fin de la liste, alors il faut revenir au début
-            showSlides(mediasPhotographer, 0);
+            mediaIndex = 0;
+            showSlides(mediasPhotographer, mediaIndex);
         }
     });
 }
@@ -106,12 +105,12 @@ function nextSlide(mediasPhotographer, mediaIndex) {
 function prevSlide(mediasPhotographer, mediaIndex) { 
     const prev = document.getElementById("lightbox_prev");
     prev.addEventListener('click', (event) => {
-        console.log("slide cliquée : " + mediaIndex);
         document.querySelector(".slide").remove();
-        if(mediaIndex != 0){  // si l'index du media est différent du premier de la liste
+        if(mediaIndex > 0){  // si l'index du media est différent du premier de la liste
             showSlides(mediasPhotographer, mediaIndex -= 1);
         } else { // on est arrivé au début de la liste
-            showSlides(mediasPhotographer, mediasPhotographer.length - 1);
+            mediaIndex = mediasPhotographer.length - 1;
+            showSlides(mediasPhotographer, mediaIndex);
         }
     });
 } 
