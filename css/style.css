@@ -12,7 +12,7 @@ html{
 
 body {
     font-family: "DM Sans", sans-serif;
-    -webkit-backface-visibility: hidden;
+    /* -webkit-backface-visibility: hidden; */
     color:#000;
     font-size:17px;
     font-weight: 400;
@@ -45,27 +45,25 @@ h1, h2, h3, h4, h5, h6 {margin:0;font-weight:400;}
     max-width: 1200px;
 }
 
-#header_main {
-    }
-    #header_main .content_width{
-        height: 90px;
-        display: flex;
-        flex-direction: row;
-        justify-content: space-between;
-        align-items: center;
-    }
-    #header_main  h1 {
-        color: #901C1C;
-        font-weight: 400;
-        font-size: 30px;
-        line-height: 46px;
-        margin: 0;
-    }
-    .logo {
-        height: 38px;
-        width:auto;
-        margin-left: 0px;
-    }
+#header_main .content_width{
+    height: 90px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+#header_main  h1 {
+    color: #901C1C;
+    font-weight: 400;
+    font-size: 30px;
+    line-height: 46px;
+    margin: 0;
+}
+.logo {
+    height: 38px;
+    width:auto;
+    margin-left: 0px;
+}
 
 
 .photographer_section {
