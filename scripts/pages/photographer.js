@@ -123,7 +123,7 @@ function mediaAlreadyLiked(){
             if(mediasLikedByUserStorage.some(item => +item.idMedia === mediaLikeButtonDataId)){
                 mediaLikeButton.classList.add("liked");
                 mediaLikeButton.setAttribute("media-liked", true);
-                const mediaLikeButtonCounter = document.querySelector(".media__like__counter");
+                const mediaLikeButtonCounter = mediaLikeButton.querySelector(".media__like__counter");
                 mediaLikeButtonCounter.textContent = +mediaLikeButtonCounter.textContent + 1;
             }
         }
