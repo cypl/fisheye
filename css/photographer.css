@@ -62,6 +62,7 @@
     border: none;
     background-color: #901C1C;
     border-radius: 5px;
+    white-space: nowrap;
     cursor: pointer;
     transition:0.05s color ease-in-out,0.1s background-color ease-in-out;
 }
@@ -70,6 +71,16 @@
     color:#000;
     transition:0.05s color ease-in-out,0.1s background-color ease-in-out;
 }
+
+@media screen and (max-width: 1000px) {
+    .photograph-header__title {font-size: 30px;line-height: 40px;}
+    .photograph-header_col1,.photograph-header_col2,.photograph-header_col3{width:100%;justify-content: center;}
+    .photograph-header_col1{order:2;padding:30px 0;text-align:center;}
+    .photograph-header_col2{order:3}
+    .photograph-header_col3{order:1}
+    .photograph-header__portrait{max-width: 100%;max-height:100%;}
+}
+
 
 
 /* Dropdown menu */
@@ -139,14 +150,9 @@
 /* Section médias */
 .photograph-medias{
     padding:25px 0 30px 0;
-    display:flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    min-height: 200px;
-    }
-.media{
-    width:calc(33.33% - 20px);
-    margin-bottom:30px;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 30px;
     }
     .media__figure{
         position: relative;
@@ -246,8 +252,14 @@
                         color:#000;
                     }
                     .media__like__wrapper.liked .like_button path{
-                        fill:#fff;
+                        fill:#000;
                     }
+@media screen and (max-width: 1000px) {
+    .photograph-medias{grid-template-columns: 1fr 1fr;}
+}
+@media screen and (max-width: 500px) {
+    .photograph-medias{grid-template-columns: 1fr;}
+}
 
 /* Fenêtre modale */
 .background_modal{
@@ -279,15 +291,27 @@
     width: 100%;
 }
 
-.modal header img {
+.modal header #contact-photographer-close{
     cursor: pointer;
-    height: 25px;
-    width: 25px;
+    height: 32px;
+    width: 32px;
     position: absolute;
     top: 20px;
     right: 20px;
+} 
+.modal header #contact-photographer-close svg {
+    position: absolute;
+    width: 100%;
+    height:100%;
 }
-
+.modal header #contact-photographer-close svg path{
+    fill:#901C1C;
+    transition:0.1s fill ease-in-out;
+}
+.modal header #contact-photographer-close:hover svg path{
+    fill:#DB8876;
+    transition:0.1s fill ease-in-out;
+}
 .modal header #form_title {
     font-size: 36px;
     line-height: 46px;
@@ -332,6 +356,11 @@ form textarea{
 form .contact_button{
     margin-top:10px;
 }
+@media screen and (max-width: 1000px) {
+    .modal {width: calc(100% - 60px);max-width: 800px;}
+    .modal header #form_title{font-size: 30px;line-height: 40px;}
+}
+
 
 /* Footer infos */
 #footer_infos{

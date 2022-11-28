@@ -37,24 +37,25 @@
     <div class="modal">
       <header>
         <h2 id="form_title">Contactez</h2>
-        <img id="contact-photographer-close" src="assets/icons/close.svg"/>
+        <div id="contact-photographer-close"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><path d="M310.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L160 210.7 54.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L114.7 256 9.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L160 301.3 265.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L205.3 256 310.6 150.6z"/></svg></div>
+        <!-- <img id="contact-photographer-close" src="assets/icons/close.svg"/> -->
       </header>
       <form>
         <div>
           <label>Prénom</label>
-          <input type="text" name="Prénom">
+          <input type="text" name="firstname" id="form__firstname">
         </div>
         <div>
           <label>Nom</label>
-          <input type="text" name="Nom">
+          <input type="text" name="lastname" id="form__lastname">
         </div>
         <div>
           <label>Email</label>
-          <input type="email" name="email">
+          <input type="email" name="email" id="form__email">
         </div>
         <div>
           <label>Votre message</label>
-          <textarea name="message" rows="4"></textarea>
+          <textarea name="message" rows="4" id="form__message"></textarea>
         </div>
         <button class="contact_button">Envoyer</button>
       </form>
