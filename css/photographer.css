@@ -101,6 +101,8 @@
     z-index:1;
     background-color: #901C1C;
     box-shadow: 0 3px 5px rgba(0, 0, 0, 0.5);
+    border: none;
+    font-weight: 700;
     }
     .sort-by-item{
         display:none;

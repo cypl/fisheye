@@ -44,6 +44,7 @@ function photographerCardFactory(data) {  // data représente l'objet singlePhot
     photographHeaderButton.classList.add("contact_button");
     photographHeaderButton.setAttribute("id","contact-photographer");
     photographHeaderButton.textContent = "Contactez-moi";
+    photographHeaderButton.setAttribute("alt","Contact me");
     photographHeaderCol2.appendChild(photographHeaderButton);
     photographHeaderButton.addEventListener('click', (event) => {
         displayModal();

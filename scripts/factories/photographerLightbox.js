@@ -75,6 +75,7 @@ function showSlides(mediasPhotographer, mediaIndex){
         const slideVideo = document.createElement("video");
         slideVideo.classList.add("slide__video");
         slideVideo.setAttribute("controls", "");
+        slideVideo.setAttribute("alt", title);
         const urlVideo = `../assets/medias/` + video;
         const slideVideoSource = document.createElement("source");
         slideVideoSource.setAttribute("src", urlVideo);
