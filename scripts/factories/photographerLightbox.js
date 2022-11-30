@@ -63,13 +63,30 @@ function showSlides(mediasPhotographer, mediaIndex){
     slideFigure.classList.add("slide__figure");
     lightBoxSlide.appendChild(slideFigure);
 
+    function loaded(img, loader) {
+        img.style.display = "block";
+        loader.style.display = "none";
+    }
+
     if(image){
         const slideImg = document.createElement("img");
         slideImg.classList.add("slide__img");
+        const slideImgLoader = document.createElement("div");
+        slideImgLoader.classList.add("slide_loader");
+        slideImgLoader.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M304 48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zm0 416c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM48 304c26.5 0 48-21.5 48-48s-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48zm464-48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM142.9 437c18.7-18.7 18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zm0-294.2c18.7-18.7 18.7-49.1 0-67.9S93.7 56.2 75 75s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zM369.1 437c18.7 18.7 49.1 18.7 67.9 0s18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9z"/></svg>';
         const urlImage = `../assets/medias/` + image;
         slideImg.setAttribute("src", urlImage);
         slideImg.setAttribute("alt", title);
         slideFigure.appendChild(slideImg);
+        slideFigure.appendChild(slideImgLoader);
+        slideImg.style.display = "none";
+        // gestion du loader
+        if (slideImg.complete) {
+            loaded(slideImg, slideImgLoader);
+        } else {
+            slideImg.addEventListener('load', loaded(slideImg, slideImgLoader));
+            slideImg.addEventListener('error', function() {alert("Le média n'a pas pu être chargée.")});
+        }
     }
     if(video){
         const slideVideo = document.createElement("video");

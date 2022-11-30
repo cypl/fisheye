@@ -103,6 +103,7 @@
     box-shadow: 0 3px 5px rgba(0, 0, 0, 0.5);
     border: none;
     font-weight: 700;
+    padding:0;
     }
     .sort-by-item{
         display:none;
@@ -488,6 +489,35 @@ form .contact_button{
     width: 100%;
     height: 100%;
     object-fit: contain;
+}
+@keyframes loaderSpin {
+    0% {
+        /* transform: scale(0.8); */
+        transform: rotate(0deg);
+        transform-origin: center;
+    }
+    100% {
+        /* transform: scale(2); */
+        transform: rotate(360deg);
+        transform-origin: center;
+    }
+}
+.slide_loader{
+    width: 40px;
+    height:40px;
+    background-color: transparent;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+}
+.slide_loader svg path{
+    fill:#D3573C;
+    animation-duration: 1s; /* durée de l'animation */
+    animation-timing-function: linear; /* type de easing */
+    animation-iteration-count: infinite; /* nombre de fois où l'animation est jouée */
+    animation-name: loaderSpin; /* appel keyframes */
+    animation-fill-mode: forwards;
 }
 .slide__video{
     width: 100%;
