@@ -43,7 +43,7 @@ function hideLightBox() {
 
 // On crée une slide à partir de l'index du média sur lequel on on a cliqué
 function showSlides(mediasPhotographer, mediaIndex){
-
+    console.log("showslide : " + mediaIndex);
     // data medias
     //On recherche l'objet correspondant dans le tableau mediasPhotographer grâce à mediaIndex
     const mediaTarget = mediasPhotographer[mediaIndex]; // retourne l'objet du média sur lequel on a cliqué
@@ -62,12 +62,6 @@ function showSlides(mediasPhotographer, mediaIndex){
     const slideFigure = document.createElement("figure");
     slideFigure.classList.add("slide__figure");
     lightBoxSlide.appendChild(slideFigure);
-
-    function loaded(img, loader) {
-        img.style.display = "block";
-        loader.style.display = "none";
-    }
-
     if(image){
         const slideImg = document.createElement("img");
         slideImg.classList.add("slide__img");
@@ -79,14 +73,17 @@ function showSlides(mediasPhotographer, mediaIndex){
         slideImg.setAttribute("alt", title);
         slideFigure.appendChild(slideImg);
         slideFigure.appendChild(slideImgLoader);
-        slideImg.style.display = "none";
+        slideImg.style.display = "block";
+        slideImg.style.opacity = "1";
         // gestion du loader
-        if (slideImg.complete) {
-            loaded(slideImg, slideImgLoader);
-        } else {
-            slideImg.addEventListener('load', loaded(slideImg, slideImgLoader));
-            slideImg.addEventListener('error', function() {alert("Le média n'a pas pu être chargée.")});
-        }
+            // slideImg.style.display = "none";
+            // slideImg.addEventListener('load', (event) => {
+            //     slideImg.classList.add("media_complete");
+            //     slideImgLoader.style.display = "none";
+            //     // setTimeout(function(){
+            //     //     slideImgLoader.style.display = "none";
+            //     // }, 1500);
+            // });
     }
     if(video){
         const slideVideo = document.createElement("video");
@@ -103,7 +100,7 @@ function showSlides(mediasPhotographer, mediaIndex){
 }
 
 
-// On détruit la lightbox
+// On ferme la lightbox
 function closeLightBox() {
     if(document.getElementById("lightbox_close")){
         document.getElementById("lightbox_close").addEventListener('click', (event) => {
@@ -118,33 +115,93 @@ function closeLightBox() {
 }
 
 
+// function loadNextSlide(mediasPhotographer, mediaIndex){
+//     mediaIndex += 1;
+//     console.log("next : " + mediaIndex);
+//     document.querySelector(".slide").remove();
+//     if(mediaIndex < mediasPhotographer.length){ 
+//         showSlides(mediasPhotographer, mediaIndex);
+//     } else { 
+//         mediaIndex = 0;
+//         showSlides(mediasPhotographer, mediaIndex);
+//     }
+// }
+
 // On crée une fonction pour charger la slide suivante
 function nextSlide(mediasPhotographer, mediaIndex) { 
     const next = document.getElementById("lightbox_next");
-    //next.addEventListener('click', (event) => {
-    next.onclick = (event) => {
+    // next.onclick = (event) => {};
+    next.addEventListener('click', (event) => {
+        //loadNextSlide(mediasPhotographer, mediaIndex);
+        mediaIndex += 1;
+        console.log("next : " + mediaIndex);
         document.querySelector(".slide").remove();
-        if(mediaIndex < mediasPhotographer.length - 1){  // si l'index du media peut être augmenté de 1
-            showSlides(mediasPhotographer, mediaIndex += 1);
-        } else { // sinon on est arrivé à la fin de la liste, alors il faut revenir au début
+        if(mediaIndex < mediasPhotographer.length){ 
+            showSlides(mediasPhotographer, mediaIndex);
+        } else { 
             mediaIndex = 0;
             showSlides(mediasPhotographer, mediaIndex);
         }
-    };
+    });
+    // Navigation avec la flêche gauche du clavier
+    document.addEventListener('keyup', (event) => {
+        if( event.keyCode == "39" ){
+            //loadNextSlide(mediasPhotographer, mediaIndex);
+            mediaIndex += 1;
+            console.log("next : " + mediaIndex);
+            document.querySelector(".slide").remove();
+            if(mediaIndex < mediasPhotographer.length){ 
+                showSlides(mediasPhotographer, mediaIndex);
+            } else { 
+                mediaIndex = 0;
+                showSlides(mediasPhotographer, mediaIndex);
+            }
+        }
+    });
 }
 
+
+// function loadPrevSlide(mediasPhotographer, mediaIndex) {
+//     mediaIndex -= 1;
+//     console.log("prev : " + mediaIndex);
+//     document.querySelector(".slide").remove();
+//     if(mediaIndex > 0){  // si l'index du media est différent du premier de la liste
+//         showSlides(mediasPhotographer, mediaIndex);
+//     } else { // on est arrivé au début de la liste
+//         mediaIndex = mediasPhotographer.length - 1;
+//         showSlides(mediasPhotographer, mediaIndex);
+//     }
+// }
 
 // On crée une fonction pour charger la slide précédente
 function prevSlide(mediasPhotographer, mediaIndex) { 
     const prev = document.getElementById("lightbox_prev");
-    //prev.addEventListener('click', (event) => {
-    prev.onclick = (event) => {
+    // prev.onclick = (event) => {};
+    prev.addEventListener('click', (event) => {
+        //loadPrevSlide(mediasPhotographer, mediaIndex);
+        mediaIndex -= 1;
+        console.log("prev : " + mediaIndex);
         document.querySelector(".slide").remove();
         if(mediaIndex > 0){  // si l'index du media est différent du premier de la liste
-            showSlides(mediasPhotographer, mediaIndex -= 1);
+            showSlides(mediasPhotographer, mediaIndex);
         } else { // on est arrivé au début de la liste
             mediaIndex = mediasPhotographer.length - 1;
             showSlides(mediasPhotographer, mediaIndex);
         }
-    };
+    });
+    // Navigation avec la flêche gauche du clavier
+    document.addEventListener('keyup', (event) => {
+        if( event.keyCode == "37" ){
+            //loadPrevSlide(mediasPhotographer, mediaIndex);
+            mediaIndex -= 1;
+            console.log("prev : " + mediaIndex);
+            document.querySelector(".slide").remove();
+            if(mediaIndex > 0){  // si l'index du media est différent du premier de la liste
+                showSlides(mediasPhotographer, mediaIndex);
+            } else { // on est arrivé au début de la liste
+                mediaIndex = mediasPhotographer.length - 1;
+                showSlides(mediasPhotographer, mediaIndex);
+            }
+        }
+    });
 } 

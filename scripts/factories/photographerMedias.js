@@ -19,6 +19,7 @@ function photographerMediasFactory(data) {
         mediaArticleImg.setAttribute("src", urlImage);
         mediaArticleImg.setAttribute("alt", title);
         mediaArticleImg.setAttribute("media-id", id);
+        mediaArticleImg.setAttribute("tabindex", 0);
         mediaArticleFigure.appendChild(mediaArticleImg);
     } 
     if(video){ // dans le cas où on a une vidéo, on affiche une image extraite de la vidéo
@@ -28,6 +29,7 @@ function photographerMediasFactory(data) {
         mediaArticleImg.setAttribute("src", urlImage);
         mediaArticleImg.setAttribute("alt", title);
         mediaArticleImg.setAttribute("media-id", id);
+        mediaArticleImg.setAttribute("tabindex", 0);
         mediaArticleImg.classList.add("media__img-video");
         const iconVideo = document.createElement("span");
         iconVideo.classList.add("media__icon_video");
@@ -46,7 +48,7 @@ function photographerMediasFactory(data) {
 
     const mediaLike = document.createElement("p");
     mediaLike.classList.add("media__like");
-    const mediaLikeWrapper = document.createElement("span");
+    const mediaLikeWrapper = document.createElement("button");
     mediaLikeWrapper.classList.add("media__like__wrapper");
     mediaLikeWrapper.setAttribute("media-id", id);
     mediaLikeWrapper.setAttribute("media-author", photographerId);

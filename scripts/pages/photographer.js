@@ -90,6 +90,7 @@ function displayLightBox(mediasPhotographer) {
     buildLightBox(); 
     // la lightbox s'affiche lorsque l'on clique sur un média
     for (const t of lightBoxTriggers) {
+        // Ouverture de la lightbox au clic
         t.addEventListener('click', (event) => {
             // 1 - On affiche la lightbox
             showLightBox();
@@ -106,6 +107,31 @@ function displayLightBox(mediasPhotographer) {
             // 4 - Masquer la lightbox
             closeLightBox();
         });
+        // Ouverture de la lightbox avec la touche entrée ou espace
+        // document.addEventListener('keyup', (event) => {
+        //     if( event.keyCode == "9" ){ // la touche tab a été pressée
+        //         if(document.activeElement === t){
+        //             document.addEventListener('keyup', (event) => {
+        //                 if(event.keyCode == "13" || event.keyCode == "32"){
+        //                     // 1 - On affiche la lightbox
+        //                     showLightBox();
+        //                     // 2 - On affiche la slide correspondante
+        //                     // on recherche l'ID du média sur lequel on a cliqué
+        //                     let mediaId = +event.target.getAttribute("media-id"); 
+        //                     // on recherche l'index de l'objet ciblé dans le tableau "mediasPhotographer"
+        //                     let mediaIndex = mediasPhotographer.findIndex(x => x.id === mediaId);
+        //                     // et on affiche la slide
+        //                     showSlides(mediasPhotographer, mediaIndex);
+        //                     // 3 - Changement de slide
+        //                     nextSlide(mediasPhotographer, mediaIndex);
+        //                     prevSlide(mediasPhotographer, mediaIndex);
+        //                     // 4 - Masquer la lightbox
+        //                     closeLightBox();
+        //                 }
+        //             });
+        //         }
+        //     }
+        // });
     }
 };
 
@@ -216,15 +242,19 @@ initPhotographer();
 const sortByLikes = document.getElementById("sort-by-likes");
 const sortByName = document.getElementById("sort-by-name");
 const sortByDate = document.getElementById("sort-by-date");
+// On affiche les médias par ordre alphabétique
 sortByName.addEventListener('click', (event) => {
     initPhotographerByTitle();
 });
+// On affiche les médias par date
 sortByDate.addEventListener('click', (event) => {
     initPhotographerByDate();
 });
+// On affiche les médias par popularité
 sortByLikes.addEventListener('click', (event) => {
     initPhotographerByLikes();
 }); 
+
 
 async function initPhotographerBy(classification){
     const media = await requestMedia(); 
