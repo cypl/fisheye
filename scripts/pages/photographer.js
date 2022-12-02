@@ -255,7 +255,8 @@ sortByLikes.addEventListener('click', (event) => {
     initPhotographerByLikes();
 }); 
 
-
+// on crée un fonction générique qui contient les éléments de bases pour constuire les fonctions
+// initPhotographerByTitle()    initPhotographerByDate()    initPhotographerByLikes()
 async function initPhotographerBy(classification){
     const media = await requestMedia(); 
     const mediasPhotographer = await findMedias(media,classification);

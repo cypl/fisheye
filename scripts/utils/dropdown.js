@@ -59,12 +59,18 @@ document.addEventListener('keyup', (event) => {
         const sortByDate = document.getElementById("sort-by-date");
         if(document.activeElement === sortByLikes){
             initPhotographerByLikes();
+            dropdownTrigger.insertBefore(sortByLikes, dropdownTrigger.firstChild);
+            closeDropdown();
         }
         if(document.activeElement === sortByName){
             initPhotographerByTitle();
+            dropdownTrigger.insertBefore(sortByName, dropdownTrigger.firstChild);
+            closeDropdown();
         }
         if(document.activeElement === sortByDate){
             initPhotographerByDate();
+            dropdownTrigger.insertBefore(sortByDate, dropdownTrigger.firstChild);
+            closeDropdown();
         }
     }
     //échappe
