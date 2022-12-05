@@ -31,7 +31,7 @@
     
   <div id="footer_infos"></div>
 
-  <div id="contact_modal" class="background_modal">
+  <div id="contact_modal" class="background_modal" role="dialog">
     <div class="modal">
       <header>
         <h2 id="form_title">Contactez</h2>
@@ -40,21 +40,21 @@
       <form>
         <div>
           <label for="form__firstname">Prénom</label>
-          <input type="text" name="firstname" id="form__firstname" tabindex="0">
+          <input type="text" name="firstname" id="form__firstname" tabindex="1">
         </div>
         <div>
           <label for="form__lastname">Nom</label>
-          <input type="text" name="lastname" id="form__lastname" tabindex="0">
+          <input type="text" name="lastname" id="form__lastname" tabindex="1">
         </div>
         <div>
           <label for="form__email">Email</label>
-          <input type="email" name="email" id="form__email" tabindex="0">
+          <input type="email" name="email" id="form__email" tabindex="1">
         </div>
         <div>
           <label for="form__message">Votre message</label>
-          <textarea name="message" rows="4" id="form__message" tabindex="0"></textarea>
+          <textarea name="message" rows="4" id="form__message" tabindex="1"></textarea>
         </div>
-        <button class="contact_button" tabindex="0">Envoyer</button>
+        <button class="contact_button" tabindex="1">Envoyer</button>
       </form>
     </div>
   </div>
