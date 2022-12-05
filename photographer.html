@@ -17,11 +17,11 @@
     <div class="photograph-header content_width"></div>
     <!-- Dropdown filter -->
     <div class="sort-by content_width">
-      <p role="navigation" aria-label="Trier par :">Trier par : <span id="sort-by-container">
-        <button id="sort-by-wrapper" aria-expanded="false"> 
-          <span id="sort-by-likes" class="sort-by-item" tabindex="0">Popularité</span>
-          <span id="sort-by-date" class="sort-by-item" tabindex="0">Date</span>
-          <span id="sort-by-name" class="sort-by-item" tabindex="0">Titre</span>
+      <p role="navigation" aria-label="Order by">Trier par : <span id="sort-by-container">
+        <button id="sort-by-wrapper" role="listbox" aria-expanded="false"> 
+          <span id="sort-by-likes" role="option" class="sort-by-item" tabindex="0">Popularité</span>
+          <span id="sort-by-date" role="option" class="sort-by-item" tabindex="0">Date</span>
+          <span id="sort-by-name" role="option" class="sort-by-item" tabindex="0">Titre</span>
         </button></span>
       </p>
     </div>
@@ -40,21 +40,21 @@
       <form>
         <div>
           <label for="form__firstname">Prénom</label>
-          <input type="text" name="firstname" id="form__firstname">
+          <input type="text" name="firstname" id="form__firstname" tabindex="0">
         </div>
         <div>
           <label for="form__lastname">Nom</label>
-          <input type="text" name="lastname" id="form__lastname">
+          <input type="text" name="lastname" id="form__lastname" tabindex="0">
         </div>
         <div>
           <label for="form__email">Email</label>
-          <input type="email" name="email" id="form__email">
+          <input type="email" name="email" id="form__email" tabindex="0">
         </div>
         <div>
           <label for="form__message">Votre message</label>
-          <textarea name="message" rows="4" id="form__message"></textarea>
+          <textarea name="message" rows="4" id="form__message" tabindex="0"></textarea>
         </div>
-        <button class="contact_button">Envoyer</button>
+        <button class="contact_button" tabindex="0">Envoyer</button>
       </form>
     </div>
   </div>

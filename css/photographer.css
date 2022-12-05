@@ -115,11 +115,13 @@
         cursor:pointer;
         transition:0.1s background-color ease-in-out, 0.05s color ease-in-out;
     }
-    .sort-by-item:hover{
+    .sort-by-item:hover, .sort-by-item:focus{
         background-color: #DB8876;
         color:#000;
         transition:0.1s background-color ease-in-out, 0.05s color ease-in-out;
     }
+    .sort-by-item:focus{border:0px!important;box-shadow:none!important;}
+
     .sort-by-item:first-child{
         display:block;
         border:none;

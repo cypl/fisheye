@@ -53,6 +53,7 @@ function photographerMediasFactory(data) {
     mediaLikeWrapper.setAttribute("media-id", id);
     mediaLikeWrapper.setAttribute("media-author", photographerId);
     mediaLikeWrapper.setAttribute("media-liked", false);
+    mediaLikeWrapper.setAttribute("aria-label", "likes");
     const mediaLikeCounter = document.createElement("span");
     mediaLikeCounter.classList.add("media__like__counter");
     mediaLikeCounter.textContent = likes;

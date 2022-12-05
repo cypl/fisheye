@@ -107,32 +107,35 @@ function displayLightBox(mediasPhotographer) {
             // 4 - Masquer la lightbox
             closeLightBox();
         });
-        // Ouverture de la lightbox avec la touche entrée ou espace
-        // document.addEventListener('keyup', (event) => {
-        //     if( event.keyCode == "9" ){ // la touche tab a été pressée
-        //         if(document.activeElement === t){
-        //             document.addEventListener('keyup', (event) => {
-        //                 if(event.keyCode == "13" || event.keyCode == "32"){
-        //                     // 1 - On affiche la lightbox
-        //                     showLightBox();
-        //                     // 2 - On affiche la slide correspondante
-        //                     // on recherche l'ID du média sur lequel on a cliqué
-        //                     let mediaId = +event.target.getAttribute("media-id"); 
-        //                     // on recherche l'index de l'objet ciblé dans le tableau "mediasPhotographer"
-        //                     let mediaIndex = mediasPhotographer.findIndex(x => x.id === mediaId);
-        //                     // et on affiche la slide
-        //                     showSlides(mediasPhotographer, mediaIndex);
-        //                     // 3 - Changement de slide
-        //                     nextSlide(mediasPhotographer, mediaIndex);
-        //                     prevSlide(mediasPhotographer, mediaIndex);
-        //                     // 4 - Masquer la lightbox
-        //                     closeLightBox();
-        //                 }
-        //             });
-        //         }
-        //     }
-        // });
     }
+    // Ouverture de la lightbox avec la touche entrée ou espace
+    document.addEventListener('keyup', (event) => {
+        if( event.keyCode == "9" ){ // la touche tab a été pressée
+            for (const t of lightBoxTriggers) {
+                document.addEventListener('keyup', (event) => {
+                    // si la touche entrée ou espace a été pressée
+                    if(event.keyCode == "13" || event.keyCode == "32"){
+                        if(document.activeElement === t){
+                            // 1 - On affiche la lightbox
+                            showLightBox();
+                            // 2 - On affiche la slide correspondante
+                            // on recherche l'ID du média sur lequel on a cliqué
+                            let mediaId = +event.target.getAttribute("media-id"); 
+                            // on recherche l'index de l'objet ciblé dans le tableau "mediasPhotographer"
+                            let mediaIndex = mediasPhotographer.findIndex(x => x.id === mediaId);
+                            // et on affiche la slide
+                            showSlides(mediasPhotographer, mediaIndex);
+                            // 3 - Changement de slide
+                            nextSlide(mediasPhotographer, mediaIndex);
+                            prevSlide(mediasPhotographer, mediaIndex);
+                            // 4 - Masquer la lightbox
+                            closeLightBox();
+                        }
+                    }
+                });
+            }
+        }
+    });
 };
 
 
