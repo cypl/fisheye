@@ -39,12 +39,17 @@ dropdownTrigger.addEventListener('mouseleave', (event) => {
 // Faire remonter l'élément cliqué au dessus de la liste
 for (let dropdownItem of dropdownItems) {
     dropdownItem.addEventListener('click', (event) => {
+        // tous les éléments du dropdown passe sur aria-selected="false"
+        for (let dropdownItem of dropdownItems) {
+            dropdownItem.setAttribute("aria-selected","false");
+        }
+        // l'élément du dropdown sur lequel on a cliqué remonte en haut de la liste et passe sur aria-selected="true"
         dropdownTrigger.insertBefore(dropdownItem, dropdownTrigger.firstChild);
+        dropdownItem.setAttribute("aria-selected","true");
         //On ferme le dropdown une fois que l'élément cliqué est remonté dans la liste
         closeDropdown();
     });
 }
-
 
 // Navigation au clavier dans le dropdown
 document.addEventListener('keyup', (event) => {
