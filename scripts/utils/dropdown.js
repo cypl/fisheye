@@ -87,21 +87,4 @@ document.addEventListener('keyup', (event) => {
             }
         }
     }
-    //flêche bas
-    if(event.keyCode == "40"){ 
-        // Quand on appuie sur échappe, et que l'élément dropdownTrigger est focus
-        const dropdownTrigger = document.getElementById("sort-by-wrapper");
-        if(document.activeElement === dropdownTrigger){
-            console.log("tu veux naviguer dans le dropdown");
-        }
-    }
-    //flêche haut
-    if(event.keyCode == "38"){ 
-        // Quand on appuie sur échappe, et que l'élément dropdownTrigger est focus
-        const dropdownTrigger = document.getElementById("sort-by-wrapper");
-        if(document.activeElement === dropdownTrigger){
-            console.log("tu veux naviguer dans le dropdown");
-        }
-    }
-
 });
