@@ -3,7 +3,7 @@ function displayModal() {
     const modal = document.getElementById("contact_modal");
     const body = document.querySelector("body");
     modal.style.display = "flex";
-	body.style.overflow = "hidden";
+	body.style.overflowY = "hidden";
 }
 
 
@@ -12,7 +12,7 @@ function closeModal() {
     const modal = document.getElementById("contact_modal");
     const body = document.querySelector("body");
     modal.style.display = "none";
-	body.style.overflow = "auto";
+	body.style.overflowY = "auto";
 }
 
 

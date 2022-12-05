@@ -11,7 +11,6 @@ function buildLightBox() {
     close.setAttribute("role","navigation");
     close.setAttribute("tabindex","0");
     close.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><path d="M310.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L160 210.7 54.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L114.7 256 9.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L160 301.3 265.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L205.3 256 310.6 150.6z"/></svg>';
-    lightBoxBackground.appendChild(close);
     // On crée un container pour placer les slides
     const lightBoxContainer = document.createElement("div");
     lightBoxContainer.setAttribute("id","lightbox_container");
@@ -27,14 +26,15 @@ function buildLightBox() {
     prev.setAttribute("role","navigation");
     prev.setAttribute("tabindex","0");
     prev.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M9.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.2 288 416 288c17.7 0 32-14.3 32-32s-14.3-32-32-32l-306.7 0L214.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg>'
-    lightBoxBackground.appendChild(next);
     lightBoxBackground.appendChild(prev);
+    lightBoxBackground.appendChild(next);
+    lightBoxBackground.appendChild(close);
 }
 
 function showLightBox() {
     const lightBoxBackground = document.getElementById("lightbox_background");
     lightBoxBackground.style.display = "block";
-    document.body.style.overflow = "hidden";
+    document.body.style.overflowY = "hidden";
 }
 
 function hideLightBox() {
@@ -43,7 +43,7 @@ function hideLightBox() {
     }
     const lightBoxBackground = document.getElementById("lightbox_background");
     lightBoxBackground.style.display = "none";
-    document.body.style.overflow = "auto";
+    document.body.style.overflowY = "auto";
 }
 
 // On crée une slide à partir de l'index du média sur lequel on on a cliqué
