@@ -8,6 +8,7 @@ function openDropdown(){
     for(let dropdownItem of dropdownItems){
         dropdownItem.style.display = "block";
     }
+    dropdownTrigger.setAttribute("aria-expanded","true");
 }
 
 //Fonction pour fermer le dropdown
@@ -22,6 +23,7 @@ function closeDropdown(){
         }
         index++;
     }
+    dropdownTrigger.setAttribute("aria-expanded","false");
 }
 
 // Evènement ouvrir le dopdown
