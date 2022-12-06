@@ -52,7 +52,7 @@ function showSlides(mediasPhotographer, mediaIndex){
     // data medias
     //On recherche l'objet correspondant dans le tableau mediasPhotographer grâce à mediaIndex
     const mediaTarget = mediasPhotographer[mediaIndex]; // retourne l'objet du média sur lequel on a cliqué
-    const { title, image, video } = mediaTarget;  // les éléments entre {} représentent les types de datas de l'élément media 
+    const { title, image, video, id } = mediaTarget;  // les éléments entre {} représentent les types de datas de l'élément media 
 
     const lightBoxContainer = document.getElementById("lightbox_container");
     const lightBoxSlide = document.createElement("div");
@@ -102,6 +102,11 @@ function showSlides(mediasPhotographer, mediaIndex){
         slideVideo.appendChild(slideVideoSource);
         slideFigure.appendChild(slideVideo);
     }
+
+    const next = document.getElementById("lightbox_next");
+    const prev = document.getElementById("lightbox_prev");
+    next.setAttribute("media-id",id);
+    prev.setAttribute("media-id",id);
 }
 
 
@@ -122,11 +127,13 @@ function closeLightBox() {
 
 
 // On crée une fonction pour charger la slide suivante
-function nextSlide(mediasPhotographer, mediaIndex) { 
+function nextSlide(mediasPhotographer) { 
     const next = document.getElementById("lightbox_next");
     next.addEventListener('click', (event) => {
+        // on définit le mediaIndex actuel
+        let mediaIdCurrent = +event.target.getAttribute("media-id");
+        let mediaIndex = mediasPhotographer.findIndex(x => x.id === mediaIdCurrent);
         mediaIndex += 1;
-        console.log("next : " + mediaIndex);
         document.querySelector(".slide").remove();
         if(mediaIndex < mediasPhotographer.length){ 
             showSlides(mediasPhotographer, mediaIndex);
@@ -145,11 +152,13 @@ function nextSlide(mediasPhotographer, mediaIndex) {
 
 
 // On crée une fonction pour charger la slide précédente
-function prevSlide(mediasPhotographer, mediaIndex) { 
+function prevSlide(mediasPhotographer) { 
     const prev = document.getElementById("lightbox_prev");
     prev.addEventListener('click', (event) => {
+        // on définit le mediaIndex actuel
+        let mediaIdCurrent = +event.target.getAttribute("media-id");
+        let mediaIndex = mediasPhotographer.findIndex(x => x.id === mediaIdCurrent);
         mediaIndex -= 1;
-        console.log("prev : " + mediaIndex);
         document.querySelector(".slide").remove();
         if(mediaIndex > 0){  // si l'index du media est différent du premier de la liste
             showSlides(mediasPhotographer, mediaIndex);

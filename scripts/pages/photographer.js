@@ -102,8 +102,8 @@ function displayLightBox(mediasPhotographer) {
             // et on affiche la slide
             showSlides(mediasPhotographer, mediaIndex);
             // 3 - Changement de slide
-            nextSlide(mediasPhotographer, mediaIndex);
-            prevSlide(mediasPhotographer, mediaIndex);
+            nextSlide(mediasPhotographer);
+            prevSlide(mediasPhotographer);
             // 4 - Masquer la lightbox
             closeLightBox();
         });
