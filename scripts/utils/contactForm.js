@@ -3,6 +3,7 @@ const modal = document.getElementById("contact_modal");
 const body = document.querySelector("body");
 const main = document.getElementById("main");
 const formSubmit = modal.querySelector(".contact_button");
+let modalOpen = false;
 
 // Fonction pour ouvrir la fenêtre modale
 function displayModal() {
@@ -11,6 +12,7 @@ function displayModal() {
     main.setAttribute("aria-hidden","true");
     modal.setAttribute("aria-hidden","false");
     contactClose.focus({focusVisible: true});
+    modalOpen = true;
 }
 
 // Fonction pour fermer la fenêtre modale
@@ -21,6 +23,7 @@ function closeModal() {
     main.setAttribute("aria-hidden","false");
     modal.setAttribute("aria-hidden","true");
     buttonOpenModal.focus({focusVisible: true});
+    modalOpen = false;
 }
 
 // Fermer la fenêtre modale avec le bouton
@@ -31,7 +34,9 @@ contactClose.addEventListener('click', (event) => {
 // Fermer la fenêtre modale avec la touche Escap
 document.addEventListener("keydown", (e) => {
     if(e.key === "Escape") {
-        closeModal();
+        if(modalOpen){
+            closeModal();
+        }
     }
 });
 
