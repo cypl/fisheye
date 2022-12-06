@@ -126,7 +126,6 @@ function closeLightBox() {
 }
 
 
-
 // On crée une fonction pour charger la slide suivante
 function nextSlide(mediasPhotographer) { 
     const next = document.getElementById("lightbox_next");
@@ -144,11 +143,11 @@ function nextSlide(mediasPhotographer) {
         }
     });
     // Navigation avec la flêche gauche du clavier
-    document.addEventListener('keyup', (event) => {
-        if( event.keyCode == "39" ){
-            next.click();
-        }
-    });
+    // document.addEventListener('keyup', (event) => {
+    //     if( event.keyCode == "39" ){
+    //         next.click();
+    //     }
+    // });
 }
 
 
@@ -169,9 +168,9 @@ function prevSlide(mediasPhotographer) {
         }
     });
     // Navigation avec la flêche gauche du clavier
-    document.addEventListener('keyup', (event) => {
-        if( event.keyCode == "37" ){
-            prev.click();
-        }
-    });
+    // document.addEventListener('keyup', (event) => {
+    //     if( event.keyCode == "37" ){
+    //         prev.click();
+    //     }
+    // });
 } 
