@@ -158,11 +158,13 @@ function nextSlide(mediasPhotographer) {
         }
     });
     // Navigation avec la flêche gauche du clavier
-    // document.addEventListener('keyup', (event) => {
-    //     if( event.keyCode == "39" ){
-    //         next.click();
-    //     }
-    // });
+    document.addEventListener('keyup', (event) => {
+        if( event.keyCode == "39" ){
+            if(lightboxOpen){
+                next.click();
+            }
+        }
+    });
 }
 
 
@@ -183,9 +185,11 @@ function prevSlide(mediasPhotographer) {
         }
     });
     // Navigation avec la flêche gauche du clavier
-    // document.addEventListener('keyup', (event) => {
-    //     if( event.keyCode == "37" ){
-    //         prev.click();
-    //     }
-    // });
+    document.addEventListener('keyup', (event) => {
+        if( event.keyCode == "37" ){
+            if(lightboxOpen){
+            prev.click();
+            }
+        }
+    });
 } 
