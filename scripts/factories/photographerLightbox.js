@@ -120,24 +120,11 @@ function closeLightBox() {
 }
 
 
-// function loadNextSlide(mediasPhotographer, mediaIndex){
-//     mediaIndex += 1;
-//     console.log("next : " + mediaIndex);
-//     document.querySelector(".slide").remove();
-//     if(mediaIndex < mediasPhotographer.length){ 
-//         showSlides(mediasPhotographer, mediaIndex);
-//     } else { 
-//         mediaIndex = 0;
-//         showSlides(mediasPhotographer, mediaIndex);
-//     }
-// }
 
 // On crée une fonction pour charger la slide suivante
 function nextSlide(mediasPhotographer, mediaIndex) { 
     const next = document.getElementById("lightbox_next");
-    // next.onclick = (event) => {};
     next.addEventListener('click', (event) => {
-        //loadNextSlide(mediasPhotographer, mediaIndex);
         mediaIndex += 1;
         console.log("next : " + mediaIndex);
         document.querySelector(".slide").remove();
@@ -151,39 +138,16 @@ function nextSlide(mediasPhotographer, mediaIndex) {
     // Navigation avec la flêche gauche du clavier
     document.addEventListener('keyup', (event) => {
         if( event.keyCode == "39" ){
-            //loadNextSlide(mediasPhotographer, mediaIndex);
-            mediaIndex += 1;
-            console.log("next : " + mediaIndex);
-            document.querySelector(".slide").remove();
-            if(mediaIndex < mediasPhotographer.length){ 
-                showSlides(mediasPhotographer, mediaIndex);
-            } else { 
-                mediaIndex = 0;
-                showSlides(mediasPhotographer, mediaIndex);
-            }
+            next.click();
         }
     });
 }
 
 
-// function loadPrevSlide(mediasPhotographer, mediaIndex) {
-//     mediaIndex -= 1;
-//     console.log("prev : " + mediaIndex);
-//     document.querySelector(".slide").remove();
-//     if(mediaIndex > 0){  // si l'index du media est différent du premier de la liste
-//         showSlides(mediasPhotographer, mediaIndex);
-//     } else { // on est arrivé au début de la liste
-//         mediaIndex = mediasPhotographer.length - 1;
-//         showSlides(mediasPhotographer, mediaIndex);
-//     }
-// }
-
 // On crée une fonction pour charger la slide précédente
 function prevSlide(mediasPhotographer, mediaIndex) { 
     const prev = document.getElementById("lightbox_prev");
-    // prev.onclick = (event) => {};
     prev.addEventListener('click', (event) => {
-        //loadPrevSlide(mediasPhotographer, mediaIndex);
         mediaIndex -= 1;
         console.log("prev : " + mediaIndex);
         document.querySelector(".slide").remove();
@@ -197,16 +161,7 @@ function prevSlide(mediasPhotographer, mediaIndex) {
     // Navigation avec la flêche gauche du clavier
     document.addEventListener('keyup', (event) => {
         if( event.keyCode == "37" ){
-            //loadPrevSlide(mediasPhotographer, mediaIndex);
-            mediaIndex -= 1;
-            console.log("prev : " + mediaIndex);
-            document.querySelector(".slide").remove();
-            if(mediaIndex > 0){  // si l'index du media est différent du premier de la liste
-                showSlides(mediasPhotographer, mediaIndex);
-            } else { // on est arrivé au début de la liste
-                mediaIndex = mediasPhotographer.length - 1;
-                showSlides(mediasPhotographer, mediaIndex);
-            }
+            prev.click();
         }
     });
 } 
