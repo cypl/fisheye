@@ -1,27 +1,32 @@
+const contactClose = document.getElementById("contact-photographer-close");
+const modal = document.getElementById("contact_modal");
+const body = document.querySelector("body");
+const main = document.getElementById("main");
+const formSubmit = modal.querySelector(".contact_button");
+
 // Fonction pour ouvrir la fenêtre modale
 function displayModal() {
-    const modal = document.getElementById("contact_modal");
-    const body = document.querySelector("body");
     modal.style.display = "flex";
 	body.style.overflowY = "hidden";
+    main.setAttribute("aria-hidden","true");
+    modal.setAttribute("aria-hidden","false");
+    contactClose.focus({focusVisible: true});
 }
-
 
 // Fonction pour fermer la fenêtre modale
 function closeModal() {
-    const modal = document.getElementById("contact_modal");
-    const body = document.querySelector("body");
+    const buttonOpenModal = document.getElementById("contact-photographer");
     modal.style.display = "none";
 	body.style.overflowY = "auto";
+    main.setAttribute("aria-hidden","false");
+    modal.setAttribute("aria-hidden","true");
+    buttonOpenModal.focus({focusVisible: true});
 }
 
-
 // Fermer la fenêtre modale avec le bouton
-const contactPhotographerClose = document.getElementById("contact-photographer-close");
-contactPhotographerClose.addEventListener('click', (event) => {
+contactClose.addEventListener('click', (event) => {
     closeModal();
-  });
-
+});
 
 // Fermer la fenêtre modale avec la touche Escap
 document.addEventListener("keydown", (e) => {
@@ -30,7 +35,7 @@ document.addEventListener("keydown", (e) => {
     }
 });
 
-
+// Une fonction pour récupérer le nom du photographe et l'affiche dans le header du formulaire
 function photographerForm(data) {
     const { name } = data;  // les éléments entre {} représentent les types de datas de l'élément “photographer” 
     const formTitle = document.getElementById("form_title");
@@ -39,7 +44,7 @@ function photographerForm(data) {
     formTitle.appendChild(formTitleName);
 }
 
-
+// Une fonction pour afficher les données du formulaire dans la console
 function printFormDatas(){
     const fieldFirstName = document.getElementById("form__firstname");
     const fieldLastName = document.getElementById("form__lastname");
@@ -50,11 +55,9 @@ ${fieldFirstName.value} ${fieldLastName.value}
 Email : ${fieldEmail.value}
 Message : ${fieldMessage.value}`);
 }
+
 // Validation du formulaire
-const modal = document.getElementById("contact_modal");
-const formSubmit = modal.querySelector(".contact_button");
 formSubmit.addEventListener('click', (event) => {
     printFormDatas();
     event.preventDefault();
 });
-
