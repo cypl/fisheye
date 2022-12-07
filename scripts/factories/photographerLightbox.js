@@ -185,15 +185,15 @@ function manageLightBoxButtons(){
     const prev = document.getElementById("lightbox_prev");
     const lightBoxTriggers = document.getElementsByClassName("media__img");
     document.onkeyup = (event) => {
-        if( event.key == "ArrowRight" ){
+        if(event.key == "ArrowRight"){
             if(lightboxOpen){
                 next.click();
             }
-        } else if ( event.key == "ArrowLeft" ){
+        } else if (event.key == "ArrowLeft"){
             if(lightboxOpen){
                 prev.click();
             }
-        } else if ( event.key == "Tab" ){
+        } else if (event.key == "Tab"){
             for (const t of lightBoxTriggers) {
                 document.addEventListener('keyup', (event) => {
                     // si la touche entrée ou espace a été pressée
@@ -204,7 +204,7 @@ function manageLightBoxButtons(){
                     }
                 });
             }
-        } else if ( event.key == "Escape" ){
+        } else if (event.key == "Escape"){
             if(lightboxOpen){
                 hideLightBox();
             }

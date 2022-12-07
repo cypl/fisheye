@@ -54,7 +54,7 @@ for (let dropdownItem of dropdownItems) {
 // Navigation au clavier dans le dropdown
 document.addEventListener('keyup', (event) => {
     //enter or space
-    if(event.keyCode == "13" || event.keyCode == "32"){ 
+    if(event.key == "Enter" || event.key == " " || event.key == "Spacebar"){ 
         // Quand on appuie sur entrée/espace, et que l'élément dropdownTrigger est focus
         const dropdownTrigger = document.getElementById("sort-by-wrapper");
         if(document.activeElement === dropdownTrigger){
@@ -81,7 +81,7 @@ document.addEventListener('keyup', (event) => {
         }
     }
     //échappe
-    if(event.keyCode == "27"){ 
+    if(event.key == "Escape"){ 
         // Si l'élément dropdownTrigger est focus
         const dropdownTrigger = document.getElementById("sort-by-wrapper");
         if(document.activeElement === dropdownTrigger){
