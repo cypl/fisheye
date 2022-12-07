@@ -87,7 +87,7 @@ function removeMedias() {
 function displayLightBox(mediasPhotographer) {
     const lightBoxTriggers = document.getElementsByClassName("media__img");
     // 1 - On construit la lightbox
-    buildLightBox(); 
+    // buildLightBox(); 
     // la lightbox s'affiche lorsque l'on clique sur un média
     for (const t of lightBoxTriggers) {
         // Ouverture de la lightbox au clic
@@ -108,21 +108,6 @@ function displayLightBox(mediasPhotographer) {
             closeLightBox();
         });
     }
-    // Ouverture de la lightbox avec la touche entrée ou espace
-    document.addEventListener('keyup', (event) => {
-        if( event.keyCode == "9" ){ // la touche tab a été pressée
-            for (const t of lightBoxTriggers) {
-                document.addEventListener('keyup', (event) => {
-                    // si la touche entrée ou espace a été pressée
-                    if(event.keyCode == "13" || event.keyCode == "32"){
-                        if(document.activeElement === t){
-                            t.click();
-                        }
-                    }
-                });
-            }
-        }
-    });
 };
 
 
@@ -209,42 +194,6 @@ function mediaLike(){
 }
 
 
-// Fonction pour charger l'ensemble des éléments au chargement de la page
-async function initPhotographer() {
-    const photographers = await requestPhotographers();
-    const media = await requestMedia();
-    // On sort un objet avec uniquement le photographe concerné
-    const singlePhotographer = await findPhotographer(photographers); // retourne l'objet du photographe
-    const mediasPhotographer = await findMedias(media,sortByAsc("likes")); // retourne l'objet media du photographe, avec la collections d'images
-    // A partir de cet Objet, on génére le template pour le header
-    displayHeader(singlePhotographer);
-    displayFooter(singlePhotographer, mediasPhotographer);
-    displayMedias(mediasPhotographer);
-    displayLightBox(mediasPhotographer);
-    photographerForm(singlePhotographer);
-    mediaAlreadyLiked();
-    mediaLike();
-};
-initPhotographer();
-
-
-// Fonction pour charger l'ensemble des éléments média lorsque l'on utilise le dropdown
-const sortByLikes = document.getElementById("sort-by-likes");
-const sortByName = document.getElementById("sort-by-name");
-const sortByDate = document.getElementById("sort-by-date");
-// On affiche les médias par ordre alphabétique
-sortByName.addEventListener('click', (event) => {
-    initPhotographerByTitle();
-});
-// On affiche les médias par date
-sortByDate.addEventListener('click', (event) => {
-    initPhotographerByDate();
-});
-// On affiche les médias par popularité
-sortByLikes.addEventListener('click', (event) => {
-    initPhotographerByLikes();
-}); 
-
 // on crée un fonction générique qui contient les éléments de bases pour constuire les fonctions
 // initPhotographerByTitle()    initPhotographerByDate()    initPhotographerByLikes()
 async function initPhotographerBy(classification){
@@ -256,6 +205,7 @@ async function initPhotographerBy(classification){
     mediaAlreadyLiked();
     mediaLike();
 }
+// Lorsqu'un tri est effectué à l'aide du dropdown, les médias sont supprimés, puis recréés avec la classification correspondante
 async function initPhotographerByTitle(){
     initPhotographerBy(sortByDesc("title"));
 }
@@ -265,3 +215,43 @@ async function initPhotographerByDate(){
 async function initPhotographerByLikes(){
     initPhotographerBy(sortByAsc("likes"));
 }
+
+
+// Fonction pour charger l'ensemble des éléments au chargement de la page
+async function initPhotographer() {
+    const photographers = await requestPhotographers();
+    const media = await requestMedia();
+    // On sort un objet avec uniquement le photographe concerné
+    const singlePhotographer = await findPhotographer(photographers); // retourne l'objet du photographe
+    const mediasPhotographer = await findMedias(media,sortByAsc("likes")); // retourne l'objet media du photographe, avec la collections d'images
+    // A partir de cet Objet, on génére le template pour le header
+    displayHeader(singlePhotographer);
+    displayFooter(singlePhotographer, mediasPhotographer);
+    displayMedias(mediasPhotographer);
+    initLightBox();
+    displayLightBox(mediasPhotographer);
+    photographerForm(singlePhotographer);
+    mediaAlreadyLiked();
+    mediaLike();
+
+    const sortByLikes = document.getElementById("sort-by-likes");
+    const sortByName = document.getElementById("sort-by-name");
+    const sortByDate = document.getElementById("sort-by-date");
+    // On affiche les médias par ordre alphabétique
+    sortByName.addEventListener('click', (event) => {
+        initPhotographerByTitle();
+    });
+    // On affiche les médias par date
+    sortByDate.addEventListener('click', (event) => {
+        initPhotographerByDate();
+    });
+    // On affiche les médias par popularité
+    sortByLikes.addEventListener('click', (event) => {
+        initPhotographerByLikes();
+    }); 
+
+
+};
+
+
+initPhotographer();

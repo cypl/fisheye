@@ -1,4 +1,4 @@
-// On construit la lightbox
+// On construit la lightbox (éléments html)
 function buildLightBox() {
     // on crée le background de la lightbox
     const mainContainer = document.getElementById("main");
@@ -17,7 +17,7 @@ function buildLightBox() {
     lightBoxContainer.setAttribute("id","lightbox_container");
     lightBoxContainer.setAttribute("aria-hidden","true");
     lightBoxBackground.appendChild(lightBoxContainer);
-    // On crée les éléments de navigations (previous / next=)
+    // On crée les éléments de navigations (previous / next)
     const next = document.createElement("div");
     next.setAttribute("id","lightbox_next");
     next.setAttribute("role","navigation");
@@ -33,8 +33,12 @@ function buildLightBox() {
     lightBoxBackground.appendChild(next);
 }
 
+
+// par défaut, l'état de la lightbox est fermé :
 let lightboxOpen = false;
 
+
+// fonction pour afficher la lightbox
 function showLightBox() {
     const lightBoxBackground = document.getElementById("lightbox_background");
     const closeLightbox = document.getElementById("lightbox_close");
@@ -46,8 +50,10 @@ function showLightBox() {
     lightboxOpen = true;
 }
 
+
+// fonction pour masquer la lightbox
 function hideLightBox() {
-    if(document.querySelector(".slide")){
+    if(lightboxOpen){
         document.querySelector(".slide").remove();
     }
     const lightBoxBackground = document.getElementById("lightbox_background");
@@ -62,25 +68,26 @@ function hideLightBox() {
 
 // On crée une slide à partir de l'index du média sur lequel on on a cliqué
 function showSlides(mediasPhotographer, mediaIndex){
-    console.log("showslide : " + mediaIndex);
+    console.log("slide actuelle : " + mediaIndex);
     // data medias
     //On recherche l'objet correspondant dans le tableau mediasPhotographer grâce à mediaIndex
     const mediaTarget = mediasPhotographer[mediaIndex]; // retourne l'objet du média sur lequel on a cliqué
     const { title, image, video, id } = mediaTarget;  // les éléments entre {} représentent les types de datas de l'élément media 
-
+    // création du conteneur ".slide"
     const lightBoxContainer = document.getElementById("lightbox_container");
     const lightBoxSlide = document.createElement("div");
     lightBoxSlide.classList.add("slide");
     lightBoxContainer.appendChild(lightBoxSlide);
-
+    // ajout du titre
     const slideTitle = document.createElement("p");
     slideTitle.classList.add("slide__title");
     slideTitle.textContent = mediaTarget.title;
     lightBoxSlide.appendChild(slideTitle);
-
+    // ajout de la balise <figure>
     const slideFigure = document.createElement("figure");
     slideFigure.classList.add("slide__figure");
     lightBoxSlide.appendChild(slideFigure);
+    // <figure> contient soit une image, soit une vidéo
     if(image){
         const slideImg = document.createElement("img");
         slideImg.classList.add("slide__img");
@@ -116,7 +123,7 @@ function showSlides(mediasPhotographer, mediaIndex){
         slideVideo.appendChild(slideVideoSource);
         slideFigure.appendChild(slideVideo);
     }
-
+    // on ajoute l'ID du média en attrivut sur les boutons next et prev : l'ID est utilisé par les fonctions nextSlide() et prevSlide()
     const next = document.getElementById("lightbox_next");
     const prev = document.getElementById("lightbox_prev");
     next.setAttribute("media-id",id);
@@ -126,17 +133,11 @@ function showSlides(mediasPhotographer, mediaIndex){
 
 // On ferme la lightbox
 function closeLightBox() {
-    if(document.getElementById("lightbox_close")){
-        document.getElementById("lightbox_close").addEventListener('click', (event) => {
+    if(lightboxOpen){
+        const closeLightbox = document.getElementById("lightbox_close");
+        closeLightbox.onclick = (event) => {
             hideLightBox();
-        });
-        document.addEventListener("keydown", (e) => {
-            if(e.key === "Escape") {
-                if(lightboxOpen){
-                    hideLightBox();
-                }
-            }
-        });
+        }
     }
 }
 
@@ -144,7 +145,7 @@ function closeLightBox() {
 // On crée une fonction pour charger la slide suivante
 function nextSlide(mediasPhotographer) { 
     const next = document.getElementById("lightbox_next");
-    next.addEventListener('click', (event) => {
+    next.onclick = (event) => {
         // on définit le mediaIndex actuel
         let mediaIdCurrent = +event.target.getAttribute("media-id");
         let mediaIndex = mediasPhotographer.findIndex(x => x.id === mediaIdCurrent);
@@ -156,40 +157,64 @@ function nextSlide(mediasPhotographer) {
             mediaIndex = 0;
             showSlides(mediasPhotographer, mediaIndex);
         }
-    });
-    // Navigation avec la flêche gauche du clavier
-    document.addEventListener('keyup', (event) => {
-        if( event.keyCode == "39" ){
-            if(lightboxOpen){
-                next.click();
-            }
-        }
-    });
+    };
 }
 
 
 // On crée une fonction pour charger la slide précédente
 function prevSlide(mediasPhotographer) { 
     const prev = document.getElementById("lightbox_prev");
-    prev.addEventListener('click', (event) => {
+    prev.onclick = (event) => {
         // on définit le mediaIndex actuel
         let mediaIdCurrent = +event.target.getAttribute("media-id");
         let mediaIndex = mediasPhotographer.findIndex(x => x.id === mediaIdCurrent);
         mediaIndex -= 1;
         document.querySelector(".slide").remove();
-        if(mediaIndex > 0){  // si l'index du media est différent du premier de la liste
+        if(mediaIndex >= 0){  // si l'index du media est le premier de la liste, ou après
             showSlides(mediasPhotographer, mediaIndex);
-        } else { // on est arrivé au début de la liste
+        } else { // Si le calcul de l'index du média donne un nombre négatif, aller à la fin de la liste
             mediaIndex = mediasPhotographer.length - 1;
             showSlides(mediasPhotographer, mediaIndex);
         }
-    });
-    // Navigation avec la flêche gauche du clavier
-    document.addEventListener('keyup', (event) => {
-        if( event.keyCode == "37" ){
+    }
+} 
+
+
+// fonction qui gère les évènements clavier lorsque la lightbox est ouverte
+function manageLightBoxButtons(){
+    const next = document.getElementById("lightbox_next");
+    const prev = document.getElementById("lightbox_prev");
+    const lightBoxTriggers = document.getElementsByClassName("media__img");
+    document.onkeyup = (event) => {
+        if( event.key == "ArrowRight" ){
             if(lightboxOpen){
-            prev.click();
+                next.click();
+            }
+        } else if ( event.key == "ArrowLeft" ){
+            if(lightboxOpen){
+                prev.click();
+            }
+        } else if ( event.key == "Tab" ){
+            for (const t of lightBoxTriggers) {
+                document.addEventListener('keyup', (event) => {
+                    // si la touche entrée ou espace a été pressée
+                    if(event.key == "Enter" || event.key == " " || event.key == "Spacebar"){
+                            if(document.activeElement === t){
+                            t.click();
+                        }
+                    }
+                });
+            }
+        } else if ( event.key == "Escape" ){
+            if(lightboxOpen){
+                hideLightBox();
             }
         }
-    });
-} 
+    };
+}
+
+// une fonction pour mettre en place les élémnts de la lightbox
+function initLightBox(){
+    buildLightBox();
+    manageLightBoxButtons();
+}
