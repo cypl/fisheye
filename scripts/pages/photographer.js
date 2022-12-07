@@ -86,8 +86,6 @@ function removeMedias() {
 // On crée une fonction pour appeller la lightbox
 function displayLightBox(mediasPhotographer) {
     const lightBoxTriggers = document.getElementsByClassName("media__img");
-    // 1 - On construit la lightbox
-    // buildLightBox(); 
     // la lightbox s'affiche lorsque l'on clique sur un média
     for (const t of lightBoxTriggers) {
         // Ouverture de la lightbox au clic
