@@ -68,7 +68,6 @@ function hideLightBox() {
 
 // On crée une slide à partir de l'index du média sur lequel on on a cliqué
 function showSlides(mediasPhotographer, mediaIndex){
-    console.log("slide actuelle : " + mediaIndex);
     // data medias
     //On recherche l'objet correspondant dans le tableau mediasPhotographer grâce à mediaIndex
     const mediaTarget = mediasPhotographer[mediaIndex]; // retourne l'objet du média sur lequel on a cliqué
