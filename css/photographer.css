@@ -500,24 +500,6 @@ form .contact_button{
     position: absolute;
     z-index: 1;
 }
-@keyframes fadeImage {
-    0% {
-        opacity: 0;
-    }
-    100% {
-        opacity: 1;
-    }
-}
-.media_complete{
-    display: block!important;
-    animation-duration: 0.5s; /* durée de l'animation */
-    animation-timing-function: linear; /* type de easing */
-    animation-iteration-count: 1; /* nombre de fois où l'animation est jouée */
-    animation-delay: 0.5s;
-    animation-name: fadeImage; /* appel keyframes */
-    animation-fill-mode: forwards;
-}
-
 .slide__video{
     width: 100%;
     height: 100%;
@@ -526,7 +508,35 @@ form .contact_button{
     left: 50%;
     transform: translate(-50%,-50%);
     background-color: #000;
+    opacity:0;
+    z-index: 1;
 }
+@keyframes fadeImage {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+.media_fadeIn{ /* total 0.8s */
+    animation-duration: 0.5s; /* durée de l'animation */
+    animation-timing-function: linear; /* type de easing */
+    animation-iteration-count: 1; /* nombre de fois où l'animation est jouée */
+    animation-delay: 0.3s;
+    animation-name: fadeImage; /* appel keyframes */
+    animation-fill-mode: forwards;
+}
+.media_fadeOut{ /* total 0.5s */
+    animation-duration: 0.5s; /* durée de l'animation */
+    animation-timing-function: linear; /* type de easing */
+    animation-iteration-count: 1; /* nombre de fois où l'animation est jouée */
+    animation-name: fadeImage; /* appel keyframes */
+    animation-fill-mode: forwards;
+    animation-direction: reverse;
+}
+
+
 
 /* loader */
 @keyframes loaderSpin {

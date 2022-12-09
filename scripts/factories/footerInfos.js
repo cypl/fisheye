@@ -7,6 +7,8 @@ function photographerFooterFactory(data, medias) {
     photographFooterP.classList.add("footer_infos__p");
     const photographFooterPrice = document.createElement("span");
     photographFooterPrice.classList.add("footer_infos__price");
+    photographFooterPrice.setAttribute("aria-label","Photographer price");
+    photographFooterPrice.setAttribute("tabindex","0");
     photographFooterPrice.innerHTML = price + "€ / jour";
 
     // //Total de likes
@@ -33,6 +35,8 @@ function photographerFooterFactory(data, medias) {
 
     const photographFooterCounterNumber = document.createElement("span");
     photographFooterCounterNumber.classList.add("footer_infos__counter__number");
+    photographFooterCounterNumber.setAttribute("aria-label","Total likes");
+    photographFooterCounterNumber.setAttribute("tabindex","0");
     photographFooterCounterNumber.innerHTML = countLikes();
     photographFooterCounter.appendChild(photographFooterCounterNumber);
 

@@ -14,6 +14,7 @@ function photographerMediasFactory(data) {
     
     const mediaArticleImg = document.createElement("img");
     mediaArticleImg.classList.add("media__img");
+    mediaArticleImg.setAttribute("aria-label","Open Lightbox");
     if(image){
         const urlImage = `../assets/medias-thumbnails/` + image;
         mediaArticleImg.setAttribute("src", urlImage);
@@ -43,6 +44,8 @@ function photographerMediasFactory(data) {
 
     const mediaTitle = document.createElement("p");
     mediaTitle.classList.add("media__title");
+    mediaTitle.setAttribute("aria-label","Media title");
+    mediaTitle.setAttribute("tabindex","0");
     mediaTitle.textContent = title;
     mediaArticleInfos.appendChild(mediaTitle);
 

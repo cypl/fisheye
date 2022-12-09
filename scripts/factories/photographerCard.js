@@ -18,6 +18,8 @@ function photographerCardFactory(data) {  // data représente l'objet singlePhot
     // Colonne 1 - On crée un wrapper pour tous les éléments textes
     const photographHeaderWrapperInfos = document.createElement("div");
     photographHeaderWrapperInfos.classList.add("photograph-header__wrapper_infos");
+    photographHeaderWrapperInfos.setAttribute("aria-label","Photographer profile");
+    photographHeaderWrapperInfos.setAttribute("tabindex","0");
 
     // Colonne 1 - On ajoute le nom du photographe
     const photographHeaderTitle = document.createElement("h1");
@@ -58,6 +60,7 @@ function photographerCardFactory(data) {  // data représente l'objet singlePhot
     photographHeaderPortraitImg.classList.add("photograph-header__img");
     photographHeaderPortraitImg.setAttribute("alt", name);
     photographHeaderPortraitImg.setAttribute("src", "assets/photographers/" + portrait);
+    photographHeaderPortraitImg.setAttribute("tabindex","0");
     photographHeaderPortrait.appendChild(photographHeaderPortraitImg);
     photographHeaderCol3.appendChild(photographHeaderPortrait);
 
