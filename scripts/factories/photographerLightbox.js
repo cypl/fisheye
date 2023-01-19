@@ -5,6 +5,7 @@ function buildLightBox() {
     const lightBoxBackground = document.createElement("div");
     lightBoxBackground.setAttribute("id","lightbox_background");
     lightBoxBackground.setAttribute("role","dialog");
+    lightBoxBackground.setAttribute("aria-modal","true");
     mainContainer.appendChild(lightBoxBackground);
     // dans le background, on crée les composants de la lightbox
     const close = document.createElement("div");
