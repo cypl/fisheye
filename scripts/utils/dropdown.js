@@ -2,7 +2,10 @@
 const dropdownTrigger = document.getElementById("sort-by-wrapper");
 const dropdownItems = document.getElementsByClassName("sort-by-item");
 
-//Fonction pour ouvrir le dropdown
+
+/**
+ * Fonction pour ouvrir le dropdown.
+ */
 function openDropdown(){
     dropdownTrigger.classList.add("dropdownOpen");
     for(let dropdownItem of dropdownItems){
@@ -11,7 +14,10 @@ function openDropdown(){
     dropdownTrigger.setAttribute("aria-expanded","true");
 }
 
-//Fonction pour fermer le dropdown
+
+/**
+ * Fonction pour fermer le dropdown.
+ */
 function closeDropdown(){
     dropdownTrigger.classList.remove("dropdownOpen");
     let index = 0;
@@ -26,32 +32,45 @@ function closeDropdown(){
     dropdownTrigger.setAttribute("aria-expanded","false");
 }
 
-// Evènement ouvrir le dopdown
+
+/**
+ * Evènement ouvrir le dopdown.
+ */
 dropdownTrigger.addEventListener('mouseenter', (event) => {
     openDropdown();
 });
 
-//Evènement fermer le dropdown
+
+/**
+ * Evènement fermer le dopdown.
+ */
 dropdownTrigger.addEventListener('mouseleave', (event) => {
     closeDropdown();
 });
 
-// Faire remonter l'élément cliqué au dessus de la liste
+
+/**
+ * Évènement qui permet de faire remonter l'élément cliqué en haut de la liste.
+ */
 for (let dropdownItem of dropdownItems) {
     dropdownItem.addEventListener('click', (event) => {
-        // tous les éléments du dropdown passe sur aria-selected="false"
+        // Tous les éléments du dropdown son attribut aria-selected devient "false"
         for (let dropdownItem of dropdownItems) {
             dropdownItem.setAttribute("aria-selected","false");
         }
-        // l'élément du dropdown sur lequel on a cliqué remonte en haut de la liste et passe sur aria-selected="true"
+        // L'élément du dropdown sur lequel on a cliqué remonte en haut de la liste
         dropdownTrigger.insertBefore(dropdownItem, dropdownTrigger.firstChild);
+        // Son attribut aria-selected devient "true"
         dropdownItem.setAttribute("aria-selected","true");
-        //On ferme le dropdown une fois que l'élément cliqué est remonté dans la liste
+        // On ferme le dropdown une fois que l'élément cliqué est remonté dans la liste
         closeDropdown();
     });
 }
 
-// Navigation au clavier dans le dropdown
+
+/**
+ * Évènement qui permet de génrer la navigation au clavier dans le dropdown.
+ */
 document.addEventListener('keyup', (event) => {
     //enter or space
     if(event.key == "Enter" || event.key == " " || event.key == "Spacebar"){ 
