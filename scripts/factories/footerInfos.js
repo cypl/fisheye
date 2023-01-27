@@ -1,4 +1,9 @@
-
+/**
+ * Fonction pour construire le footer d'une page photographe.
+ * @param {*} data 
+ * @param {*} medias 
+ * @returns {HTMLElement} retourne le HTML du footer d'une page photographe.
+ */
 function photographerFooterFactory(data, medias) { 
 
     const { price } = data;  // les éléments entre {} représentent les types de datas de l'élément “photographer” 
@@ -11,7 +16,10 @@ function photographerFooterFactory(data, medias) {
     photographFooterPrice.setAttribute("tabindex","0");
     photographFooterPrice.innerHTML = price + "€ / jour";
 
-    // //Total de likes
+    /**
+     * Fonction pour calculer le total de likes attribués au photographe.
+     * @returns {Number} retourne le nombre de likes.
+     */
     function countLikes(){
         let totalLikes = 0;
         // on ajoute au total de likes, le nombre de likes de chacun des médias (valeurs de photographers.json)

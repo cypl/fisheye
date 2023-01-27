@@ -1,14 +1,19 @@
-function photographerFactory(data) {  // data représente un élément “photographer” de l'objet “photographers”
+/**
+ * Fonction qui crée le HTML pour la fiche d'un photographe.
+ * @param {Object} data // correspond aux données d'un photographe (photographer) est un élément de l'objet photographers
+ * @returns retourne le HTML de la fiche d'une photographe.
+ */
+function photographerFactory(data) {
 
-    // je ne comprends pas vraiment ça {} ?
     const { name, id, portrait, city, country, tagline, price } = data;  // les éléments entre {} représentent les types de datas de l'élément “photographer” 
-    //
 
-    // cette variable représente le lien vers l'image du photographe, 
-    // ${portrait} est le nom du fichier qui est dans l'élément “photographer”
+    // cette variable représente le lien vers l'image du photographe 
     const picture = `assets/photographers/${portrait}`;
 
-    // cette fonction crée les éléments de la carte de chacun des photographes
+    /**
+     * Fonction pour créer les éléments HTML de la carte de chacun des photographes.
+     * @returns retourne le HTML de la fiche d'une photographe.
+     */
     function getUserCardDOM() {
         
         // on crée une balise <article> dans laquelle on va créer les autres éléments 

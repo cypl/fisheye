@@ -1,10 +1,21 @@
+/**
+ * Fonction pour retirer l'extension du nom du fichier.
+ * @param {String} filename 
+ * @returns {String}
+ */
 function removeExtension(filename) {
     return filename.substring(0, filename.lastIndexOf('.')) || filename;
 }
 
+
+/**
+ * Fonction pour créer la fiche d'un média.
+ * @param {Object} data correspond à l'objet du média à afficher.
+ * @returns {HTMLElement} retourne le HTML de la fiche d'un média.
+ */
 function photographerMediasFactory(data) { 
 
-    const { id, photographerId, title, image, video, likes, date, price } = data;  // les éléments entre {} représentent les types de datas de l'élément media 
+    const { id, photographerId, title, image, video, likes, date, price } = data;  // les éléments entre {} représentent les types de datas dont on va avoir besoin dans l'élément media 
 
     const mediaArticle = document.createElement("article");
     mediaArticle.classList.add("media");
@@ -72,5 +83,4 @@ function photographerMediasFactory(data) {
     mediaArticle.appendChild(mediaArticleInfos);
     
     return (mediaArticle);
-
 }

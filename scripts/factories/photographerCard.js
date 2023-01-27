@@ -1,4 +1,9 @@
-function photographerCardFactory(data) {  // data représente l'objet singlePhotographer 
+/**
+ * Fonction pour générer le template pour le header de la page.
+ * @param {Object} data correspond à l'objet du photographe de la page.
+ * @returns {HTMLElement} retourne le HTML du header de la page.
+ */
+function photographerCardFactory(data) { 
 
     const { name, portrait, city, country, tagline} = data;  // les éléments entre {} représentent les types de datas de l'élément “photographer” 
 

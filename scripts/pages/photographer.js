@@ -4,27 +4,42 @@ const urlParameters = new URLSearchParams(queryString);
 const idPhotographer = parseInt(urlParameters.get('id')) // = ID du photographe
 
 
-// Dans le tableau, on cherche le photographe qui a cet ID, et on retourne l'objet correspondant
+/**
+ * Fonction pour trouver le photographe qui a l'ID de l'URL et retourner l'objet correspondant.
+ * @param {Object} photographers correspond à l'objet photographers (issu de requestPhotographers())
+ * @returns {Object} retourne l'objet du photographe de la page.
+ */
 function findPhotographer(photographers) {
-    // on filtre le tableau des photographes pour retouver le bon, grâce à son ID.
     const singlePhotographer = photographers.find(photographer => photographer.id === idPhotographer);
     return singlePhotographer;
 };
 
 
-// A partir de cet Objet, on peut générer le template pour le header
+/**
+ * Fonction pour afficher le template pour le header de la page.
+ * @param {Object} singlePhotographer correspond à l'objet du photographe de la page.
+ */
 function displayHeader(singlePhotographer) { 
     photographerCardFactory(singlePhotographer);
 };
 
 
-// A partir de cet Objet, on peut générer le template pour le footer
-function displayFooter(singlePhotographer, mediasPhotographer) { // c'est là où il faut appeler la photographerFooterFactory
+/**
+ * Fonction pour afficher le template pour le footer de la page.
+ * @param {Objet} singlePhotographer correspond à l'objet du photographe de la page.
+ * @param {*} mediasPhotographer 
+ */
+function displayFooter(singlePhotographer, mediasPhotographer) {
     photographerFooterFactory(singlePhotographer, mediasPhotographer);
 };
 
 
-// On recherche les médias qui ont l'ID du photographe et on les classe dans un tableau "arrayMedias"
+/**
+ * Fonction pour créer un tableau de média, en fonction de l'ID du photographe et de la classification souhaitée.
+ * @param {Object} media correspond à l'objet qui liste tous les média.
+ * @param {Function} classification correspond à une fonction pour classer les média.
+ * @returns {Array} retourne un tableau avec les différents média du photographe, classés selon l'ordre souhaité "mediasPhotographer".
+ */
 function findMedias(media, classification) {
     // on filtre le tableau des photographes pour retouver le bon, grâce à son ID.
     const arrayMedias = [];
@@ -33,11 +48,15 @@ function findMedias(media, classification) {
             arrayMedias.push(element);
         }
     }
-    return arrayMedias.sort(classification); // le paramère "classification" va faire appel à une fonction "sortByAsc()" ou "sortByDesc()" qui va définir un paramètre de classement et un ordre
+    return arrayMedias.sort(classification); // le paramètre "classification" va faire appel à une fonction "sortByAsc()" ou "sortByDesc()" qui va définir un paramètre de classement et un ordre
 };
 
 
-// Fonction qui permet de classer les médias du plus vers le moins (ex : du plus de likes vers moins de likes)
+/**
+ * Fonction qui permet de classer les médias du plus vers le moins (ex : du plus de likes vers moins de likes).
+ * @param {String} property correspond à ce que l'on souhaite trier.
+ * @returns retourne le tableau initial trié.
+ */
 function sortByAsc(property){
     return function(a, b){
         if(a[property] < b[property]){
@@ -51,7 +70,11 @@ function sortByAsc(property){
 }
 
 
-// Fonction qui permet de classer des médias du moins vers le plus (ex : ordre alphabétique)
+/**
+ * Fonction qui permet de classer les médias du moins vers le plus (ex : ordre alphabétique).
+ * @param {String} property correspond à ce que l'on souhaite trier.
+ * @returns retourne le tableau initial trié. 
+ */
 function sortByDesc(property){
     return function(a, b){
         if(a[property] < b[property]){
@@ -65,7 +88,10 @@ function sortByDesc(property){
 }
 
 
-// On utilise le tableau "arrayMedias" comme paramètre "mediasPhotographer", afin d'afficher une fiche correspondante à chaque média
+/**
+ * Fonction pour afficher les médias dans la page.
+ * @param {Array} mediasPhotographer correspond au tableau avec les différents média du photographe, classés selon un ordre souhaité.
+ */
 function displayMedias(mediasPhotographer){
     const photographMediasSection = document.querySelector(".photograph-medias");
     mediasPhotographer.forEach((media) => {
@@ -76,14 +102,19 @@ function displayMedias(mediasPhotographer){
 }
 
 
-// On crée une fonction pour vider les éléments médias au moment du changement de filtre
+/**
+ * Fonction pour vider les éléments médias au moment du changement de filtre.
+ */
 function removeMedias() {
     const photographMediasSection = document.querySelector(".photograph-medias");
     photographMediasSection.innerHTML = "";
 };
 
 
-// On crée une fonction pour appeller la lightbox
+/**
+ * Fonction pour afficher la lightbox.
+ * @param {Array} mediasPhotographer correspond au tableau avec les différents média du photographe, classés selon un ordre souhaité.
+ */
 function displayLightBox(mediasPhotographer) {
     const lightBoxTriggers = document.getElementsByClassName("media__img");
     // la lightbox s'affiche lorsque l'on clique sur un média
@@ -109,8 +140,10 @@ function displayLightBox(mediasPhotographer) {
 };
 
 
-// On affiche les médias déjà likés par l'utilisateur
-// si des médias ont déjà été likés, on les retrouve dans localStorage, et on leur rajoute la classe "liked" et +1 à la somme de likes
+/**
+ * On affiche les médias déjà likés par l'utilisateur.
+ * Si des médias ont déjà été likés, on les retrouve dans localStorage, et on ajoute à chacun la classe "liked" et +1 à la somme totale de likes
+ */
 function mediaAlreadyLiked(){
     const mediaLikeButtons = document.getElementsByClassName("media__like__wrapper");
     // 1 - si l'utilisateur a déjà liké des média pour ce photographe, l'ID des médias sont dans localStorage "fisheyeMediasLiked"
@@ -129,15 +162,22 @@ function mediaAlreadyLiked(){
     }
 }
 
-// On crée une fonction pour liker les médias mediaLike();
-// localStorage "fisheyeMediasLiked" est temporaire, on imagine que ce qu'il contient viendrait alimenter la base de données du site et serait ensuite vidé
-class Like { // l'objet "Like" va permettre d'enregistrer dans localStorage "fisheyeMediasLiked" de nouvelles instances de média liké.
+
+/**
+ * La classe Like permet d'enregistrer dans localStorage "fisheyeMediasLiked" de nouvelles instances de média liké. 
+ */
+class Like { 
     constructor(idMedia, idPhotographer) {
         this.idMedia = idMedia;
         this.idPhotographer = idPhotographer;
     }
 }
-// On crée fonction pour mettre à jour le nombre total de likes du photographe
+
+
+/**
+ * Fonction pour mettre à jour le nombre total de likes du photographe.
+ * @param {Boolean} status correspond à l'ajout ou au retrait d'un like sur un média
+ */
 function updateTotalLike(status){
     const photographFooterCounter = document.querySelector(".footer_infos__counter__number");
     if(status == true){ //status == true va incrémenter le total de 1
@@ -146,6 +186,11 @@ function updateTotalLike(status){
         photographFooterCounter.textContent = +photographFooterCounter.textContent - 1;
     }
 }
+
+
+/**
+ * Fonction qui permet de liker / dé-liker un média.
+ */
 function mediaLike(){
     const mediaLikeButtons = document.getElementsByClassName("media__like__wrapper");
     //ensuite, pour chaque bouton like, soit il n'a jamais été liké, soit le contraire
@@ -192,8 +237,10 @@ function mediaLike(){
 }
 
 
-// on crée un fonction générique qui contient les éléments de bases pour constuire les fonctions
-// initPhotographerByTitle()    initPhotographerByDate()    initPhotographerByLikes()
+/**
+ * Fonction générique pour constuire la fonction initPhotographer() selon l'ordre souhaité.
+ * @param {Function} classification correspond à une fonction pour classer les média.
+ */
 async function initPhotographerBy(classification){
     const media = await requestMedia(); 
     const mediasPhotographer = await findMedias(media,classification);
@@ -203,19 +250,36 @@ async function initPhotographerBy(classification){
     mediaAlreadyLiked();
     mediaLike();
 }
+
+
 // Lorsqu'un tri est effectué à l'aide du dropdown, les médias sont supprimés, puis recréés avec la classification correspondante
+
+/**
+ * Fonction pour constuire la fonction initPhotographer() selon classement par titre.
+ */
 async function initPhotographerByTitle(){
     initPhotographerBy(sortByDesc("title"));
 }
+
+
+/**
+ * Fonction pour constuire la fonction initPhotographer() selon classement par date.
+ */
 async function initPhotographerByDate(){
     initPhotographerBy(sortByDesc("date"));
 }
+
+/**
+ * Fonction pour constuire la fonction initPhotographer() selon classement par popularité (nombre de likes).
+ */
 async function initPhotographerByLikes(){
     initPhotographerBy(sortByAsc("likes"));
 }
 
 
-// Fonction pour charger l'ensemble des éléments au chargement de la page
+/**
+ * Fonction pour charger l'ensemble des éléments au chargement de la page.
+ */
 async function initPhotographer() {
     const photographers = await requestPhotographers();
     const media = await requestMedia();
@@ -250,6 +314,5 @@ async function initPhotographer() {
 
 
 };
-
 
 initPhotographer();

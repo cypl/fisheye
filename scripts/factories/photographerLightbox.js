@@ -1,4 +1,6 @@
-// On construit la lightbox (éléments html)
+/**
+ * Fonction pour construire la lightbox (éléments html).
+ */
 function buildLightBox() {
     // on crée le background de la lightbox
     const mainContainer = document.getElementById("main");
@@ -42,7 +44,9 @@ function buildLightBox() {
 let lightboxOpen = false;
 
 
-// fonction pour afficher la lightbox
+/**
+ * Fonction pour afficher la lightbox.
+ */
 function showLightBox() {
     const lightBoxBackground = document.getElementById("lightbox_background");
     const closeLightbox = document.getElementById("lightbox_close");
@@ -55,7 +59,9 @@ function showLightBox() {
 }
 
 
-// fonction pour masquer la lightbox
+/**
+ * Fonction pour masquer la lightbox.
+ */
 function hideLightBox() {
     if(lightboxOpen){
         document.querySelector(".slide").remove();
@@ -70,7 +76,12 @@ function hideLightBox() {
     lightboxOpen = false;
 }
 
-// On crée une slide à partir de l'index du média sur lequel on on a cliqué
+
+/**
+ * Fonction pour créer une slide à partir de l'index du média sur lequel on a cliqué.
+ * @param {Object} mediasPhotographer correspond 
+ * @param {number} mediaIndex 
+ */
 function showSlides(mediasPhotographer, mediaIndex){
     // data medias
     //On recherche l'objet correspondant dans le tableau mediasPhotographer grâce à mediaIndex
@@ -130,7 +141,9 @@ function showSlides(mediasPhotographer, mediaIndex){
 }
 
 
-// On ferme la lightbox
+/**
+ * Fonction pour fermer la lightbox.
+ */
 function closeLightBox() {
     if(lightboxOpen){
         const closeLightbox = document.getElementById("lightbox_close");
@@ -141,7 +154,10 @@ function closeLightBox() {
 }
 
 
-// On crée une fonction pour charger la slide suivante
+/**
+ * Fonction pour charger la slide suivante.
+ * @param {Object} mediasPhotographer 
+ */
 function nextSlide(mediasPhotographer) { 
     const next = document.getElementById("lightbox_next");
     next.onclick = (event) => {
@@ -164,7 +180,10 @@ function nextSlide(mediasPhotographer) {
 }
 
 
-// On crée une fonction pour charger la slide précédente
+/**
+ * Fonction pour charger la slide précédente.
+ * @param {Object} mediasPhotographer 
+ */
 function prevSlide(mediasPhotographer) { 
     const prev = document.getElementById("lightbox_prev");
     prev.onclick = (event) => {
